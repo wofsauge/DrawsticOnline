@@ -15,6 +15,7 @@ document.getElementById('picField').onchange = function (evt) {
         fr.onload = function () {
 			imageOriginal.load(fr.result, imageLoaded);
 			document.getElementById("actionBar").style.display = "block";
+			document.getElementById("editField").style.display = "block";
         }
         fr.readAsDataURL(files[0]);
     }
@@ -67,9 +68,10 @@ function clickDownload(){
 	changeZoom();
 }
 function clickReset(){
-	temp = new MarvinImage();
-	Marvin.scale(imageOriginal, temp, canvasOriginal.width, canvasOriginal.height);
-	temp.draw(canvas);
+	imageProcessed = imageOriginal.clone();
+	buildHisto();
+	repaint();
+	
 }
 function imageLoaded(){
 	imageProcessed = imageOriginal.clone();
