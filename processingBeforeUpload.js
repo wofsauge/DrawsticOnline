@@ -191,12 +191,12 @@ function replaceColor(oldColor,newColor){
       }
     }
   }
-  repaint();
 }
 
 var hist=[];
 
 function buildHisto(){
+	hist=[];
   for(var y=0; y<imageProcessed.getHeight(); y++){
     for(var x=0; x<imageProcessed.getWidth(); x++){
 		var all = imageProcessed.getIntColor(x,y);
@@ -213,7 +213,7 @@ function buildHisto(){
 			}
 		}
 	  if(!temp){
-		  hist.push([all,red,green,blue,alpha,1]); 
+		  hist.push([all,red,green,blue,alpha,1,0]); 
 	  }
     }
   }
@@ -227,7 +227,7 @@ function buildHisto(){
 	div.setAttribute('draggable', 'true');
 	div.setAttribute('id', hist[i][0]);
 	div.classList.add("tooltip2");
-	div.innerHTML = "<span>"+hist[i][5]+"</span>  <span class=\"tooltiptext\">Red: "+hist[i][1]+" Green: "+hist[i][2]+" Blue: "+hist[i][3]+" Alpha: "+hist[i][4]+"</span>";
+	div.innerHTML = "<span>"+hist[i][5]+"</span>  <span class=\"tooltiptext\">Red: "+hist[i][1]+" Green: "+hist[i][2]+" Blue: "+hist[i][3]+" Alpha: "+hist[i][4]+" DeltaE: "+hist[i][6]+"</span>";
 	div.style.background = "rgba("+hist[i][1]+","+hist[i][2]+","+hist[i][3]+","+hist[i][4]+")";
 	document.getElementById("histogram").appendChild(div);
 	}
@@ -241,6 +241,17 @@ function buildHisto(){
 	  col.addEventListener('dragend', handleDragEnd, false);
 	});
   repaint();
+}
+function clickOptimize(){
+  for (i=hist.length-1; i >= 0; i--) { 
+	  for (j=hist.length-1; j >= 0; j--) {
+			delta =deltaE(rgb2lab(hist[i][1],hist[i][2],hist[i][3]),rgb2lab(hist[j][1],hist[j][2],hist[j][3]));
+			if(delta>0 && delta<2 && Math.abs(hist[i][4]-hist[j][4])<100){
+				replaceColor(hist[j][0],hist[i][0]);
+			}
+	  }
+  }
+	buildHisto();
 }
 
 function clickDetectCorners(){
@@ -322,6 +333,8 @@ function handleDrop(e) {
 	replaceColor(e.dataTransfer.getData('text/id'),this.id);
 	this.firstChild.innerText = Number(this.firstChild.innerText )+Number(e.dataTransfer.getData('text/html'));
 	dragSrcEl.remove();
+	
+  repaint();
   }
 
   return false;
@@ -330,4 +343,43 @@ function handleDragEnd(e) {
   [].forEach.call(cols, function (col) {
     col.classList.remove('over');
   });
+}
+
+
+function rgb2lab(r1,g1,b1){
+  var r = r1 / 255,
+      g =g1 / 255,
+      b = b1 / 255,
+      x, y, z;
+
+  r = (r > 0.04045) ? Math.pow((r + 0.055) / 1.055, 2.4) : r / 12.92;
+  g = (g > 0.04045) ? Math.pow((g + 0.055) / 1.055, 2.4) : g / 12.92;
+  b = (b > 0.04045) ? Math.pow((b + 0.055) / 1.055, 2.4) : b / 12.92;
+
+  x = (r * 0.4124 + g * 0.3576 + b * 0.1805) / 0.95047;
+  y = (r * 0.2126 + g * 0.7152 + b * 0.0722) / 1.00000;
+  z = (r * 0.0193 + g * 0.1192 + b * 0.9505) / 1.08883;
+
+  x = (x > 0.008856) ? Math.pow(x, 1/3) : (7.787 * x) + 16/116;
+  y = (y > 0.008856) ? Math.pow(y, 1/3) : (7.787 * y) + 16/116;
+  z = (z > 0.008856) ? Math.pow(z, 1/3) : (7.787 * z) + 16/116;
+
+  return [(116 * y) - 16, 500 * (x - y), 200 * (y - z)]
+}
+function deltaE(labA, labB){
+  var deltaL = labA[0] - labB[0];
+  var deltaA = labA[1] - labB[1];
+  var deltaB = labA[2] - labB[2];
+  var c1 = Math.sqrt(labA[1] * labA[1] + labA[2] * labA[2]);
+  var c2 = Math.sqrt(labB[1] * labB[1] + labB[2] * labB[2]);
+  var deltaC = c1 - c2;
+  var deltaH = deltaA * deltaA + deltaB * deltaB - deltaC * deltaC;
+  deltaH = deltaH < 0 ? 0 : Math.sqrt(deltaH);
+  var sc = 1.0 + 0.045 * c1;
+  var sh = 1.0 + 0.015 * c1;
+  var deltaLKlsl = deltaL / (1.0);
+  var deltaCkcsc = deltaC / (sc);
+  var deltaHkhsh = deltaH / (sh);
+  var i = deltaLKlsl * deltaLKlsl + deltaCkcsc * deltaCkcsc + deltaHkhsh * deltaHkhsh;
+  return i < 0 ? 0 : Math.sqrt(i);
 }
