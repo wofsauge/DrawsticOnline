@@ -145,14 +145,14 @@ function repaint(){
 	
 
 function clickRemoveBorder(){
-  for(var y=0; y<imageOriginal.getHeight(); y++){
-    for(var x=0; x<imageOriginal.getWidth(); x++){
-      var red = imageOriginal.getIntComponent0(x,y);
-      var green = imageOriginal.getIntComponent1(x,y);
-      var blue = imageOriginal.getIntComponent2(x,y);
-      var alpha = imageOriginal.getAlphaComponent(x,y);
+  for(var y=0; y<imageProcessed.getHeight(); y++){
+    for(var x=0; x<imageProcessed.getWidth(); x++){
+      var red = imageProcessed.getIntComponent0(x,y);
+      var green = imageProcessed.getIntComponent1(x,y);
+      var blue = imageProcessed.getIntComponent2(x,y);
+      var alpha = imageProcessed.getAlphaComponent(x,y);
       
-      if(red <= 14 && green <= 0 && blue <=0 && alpha > 0){
+      if(red <= 14 && green <= 10 && blue <=10 && alpha > 0){
         imageProcessed.setIntColor(x, y, 0, 0,0,0);
       }
     }
