@@ -59,7 +59,10 @@ border-width:25px;
 border-style:solid;
 border-color:transparent transparent black
 }
-
+.tooltip2 div.tooltiptext {
+width:145px;
+top:175%;
+}
 .tooltip2:hover .tooltiptext {
 visibility:visible
 }
