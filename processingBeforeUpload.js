@@ -2,7 +2,8 @@ var canvas = document.getElementById("canvas");
 var canvasOriginal = document.getElementById("original");
 var imageOriginal = new MarvinImage();
 var imageProcessed = new MarvinImage();
-var imageDisplay = new MarvinImage();
+var undoStack = [];
+var redoStack = [];
 var scale = 1;
 
 document.getElementById('picField').onchange = function(evt) {
@@ -63,7 +64,37 @@ function loadPalettes() {
         }
         i++;
     });
+}
 
+function addUndoAction(){
+	undoStack.push(imageProcessed.clone());
+    document.getElementById("undoButton").classList.remove("disabled");
+	while (redoStack.length) { redoStack.pop(); }
+    document.getElementById("redoButton").classList.add("disabled");
+}
+function doUndoAction(){
+	if (undoStack.length>0){
+	redoStack.push(imageProcessed.clone());
+	imageProcessed = undoStack.pop().clone();
+	repaint();
+    buildHisto();
+    document.getElementById("redoButton").classList.remove("disabled");
+	}
+	if(undoStack.length==0){
+        document.getElementById("undoButton").classList.add("disabled");
+	}
+}
+function doRedoAction(){
+	if (redoStack.length>0){
+	undoStack.push(imageProcessed.clone());
+    document.getElementById("undoButton").classList.remove("disabled");		
+	imageProcessed = redoStack.pop().clone();
+	repaint();
+    buildHisto();
+	}
+	if(redoStack.length==0){
+        document.getElementById("redoButton").classList.add("disabled");
+	}
 }
 
 function onColorChange() {
@@ -137,6 +168,7 @@ function clickDownload() {
 }
 
 function clickReset() {
+	addUndoAction();
     imageProcessed = imageOriginal.clone();
     buildHisto();
     repaint();
@@ -169,6 +201,7 @@ function repaint() {
 }
 
 function clickRemoveBorder() {
+	addUndoAction();
     for (var y = 0; y < imageProcessed.getHeight(); y++) {
         for (var x = 0; x < imageProcessed.getWidth(); x++) {
             var red = imageProcessed.getIntComponent0(x, y);
@@ -273,6 +306,7 @@ function buildHisto() {
 }
 
 function clickOptimize() {
+	addUndoAction();
     for (i = hist.length - 1; i >= 0; i--) {
         for (j = hist.length - 1; j >= 0; j--) {
             delta = deltaE(rgb2lab(hist[i][1], hist[i][2], hist[i][3]), rgb2lab(hist[j][1], hist[j][2], hist[j][3]));
@@ -359,6 +393,7 @@ function handleDrop(e) {
 
     // Don't do anything if dropping the same column we're dragging.
     if (dragSrcEl != this) {
+	addUndoAction();
 		if (this.value!=null){
     var tempColor = imageProcessed.getIntColor(0, 0);
 		var c = this.value.substr(1);

@@ -19,8 +19,13 @@
             <div id="actionBar" class="col-1 toolbar" style="display:none">
                 <div class="row justify-content-start">
                     <div class="col">
+					    <div class="btn-group btn-block" role="group" >
+							<button type="button" class="btn btn-outline-dark disabled" id="undoButton" onclick="doUndoAction()" data-toggle="tooltip" data-html="true" title="Undo the last action" ><span class="oi oi-action-undo"></span>Undo</button>
+							<button type="button" class="btn btn-outline-dark disabled" id="redoButton" onclick="doRedoAction()" data-toggle="tooltip" data-html="true" title="Redo the last action" ><span class="oi oi-action-redo"></span>Redo</button>
+                        </div>
                         <button type="button" class="btn btn-outline-dark  btn-block" onclick="clickRemoveBorder()" data-toggle="tooltip" data-html="true" title="Removes the border around all sprites. <br><img width=&quot;150px&quot; src=&quot;images/removeBorder.png&quot; alt=&quot;test&quot;/>">Remove Border</button>
                         <button type="button" class="btn btn-outline-dark  btn-block" onclick="clickDrawBorder()" data-toggle="tooltip" data-html="true" title="Adds a border around all sprites. <br><img width=&quot;150px&quot; src=&quot;images/addBorder.png&quot; alt=&quot;test&quot;/>">Draw Border</button>
+
                         <!--<button type="button" class="btn btn-outline-dark  btn-block" onclick="clickDetectCorners()">Draw moravec</button>-->
                     </div>
                 </div>
