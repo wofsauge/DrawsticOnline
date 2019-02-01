@@ -36,6 +36,7 @@
                                 <span class="input-group-text" id="addon-wrapping"><span class="oi oi-magnifying-glass"></span></span>
                             </div>
                             <select id="zoomlevel" class="form-control dropdown-toggle" onchange="changeZoom()" data-toggle="tooltip" data-html="true" title="Change the zoom">
+                                <option value="500">500%</option>
                                 <option value="400">400%</option>
                                 <option value="300">300%</option>
                                 <option value="200">200%</option>
@@ -92,7 +93,7 @@
                                 <h5>Entity Color loader</h5>
                                 <input type="text" placeholder="Search..." id="searchInput" onchange="loadPalettes()">
                                 <br>
-                                <select id="colors" onchange="onColorChange()" style="margin:5px;">
+                                <select id="colors" onchange="onEntityColorPaletteChange()" style="margin:5px;">
                                 </select>
                                 <div id="histogramEntity"></div>
                                 <input type="text" id="colorPicker" draggable="false" name="colorPicker" value="#123456" style="float:right;    width: 115px;height: 100px;    text-align: center;" />
