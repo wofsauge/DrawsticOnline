@@ -227,7 +227,8 @@ function evalEnvironment(img, x, y) {
 }
 
 function clickDrawBorder() {
-	var imageTemp = clickRemoveBorder();
+	addUndoAction();
+	var imageTemp =imageProcessed.clone();
 	for (var y = 0; y < imageTemp.getHeight(); y++) {
 		for (var x = 0; x < imageTemp.getWidth(); x++) {
 			var red = imageTemp.getIntComponent0(x, y);
