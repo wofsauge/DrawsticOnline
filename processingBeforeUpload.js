@@ -293,7 +293,7 @@ function buildHisto() {
 		div.setAttribute('draggable', 'true');
 		div.setAttribute('onmouseover', 'onHoverHisto(this)');
 		div.setAttribute('id', hist[i][0]);
-		div.innerHTML = "<span>" + hist[i][5] + "</span>  <span style=\"display: none;\">Red: " + hist[i][1] + "	Green: " + hist[i][2] + "	Blue: " + hist[i][3] + "&#09; Alpha: " + hist[i][4] + "</span>";
+		div.innerHTML = "<span>" + hist[i][5] + "</span>  <span style=\"display: none;\">Red: " + hist[i][1] + " Green: " + hist[i][2] + " Blue: " + hist[i][3] + " Alpha: " + hist[i][4] + "</span>";
 		div.style.background = "rgba(" + hist[i][1] + "," + hist[i][2] + "," + hist[i][3] + "," + hist[i][4] + ")";
 		document.getElementById("histogram").appendChild(div);
 	}

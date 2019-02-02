@@ -17,7 +17,7 @@ text-shadow:0 0 3px black
 .toolbar {
 display:block;
 position:fixed;
-min-width: 150px;
+width: 150px;
 top:0;
 left:0;
 bottom:0;
