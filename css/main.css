@@ -1,89 +1,93 @@
 .iLB {
-display:inline-block;
-vertical-align:top
+    display: inline-block;
+    vertical-align: top
 }
 
 .histEntry {
-display:inline-block;
-vertical-align:top;
-width:35px;
-font-size:7pt;
-padding:12px 5px;
-text-align:center;
-color:white;
-text-shadow:0 0 3px black
+    display: inline-block;
+    vertical-align: top;
+    width: 35px;
+    font-size: 7pt;
+    padding: 10px 5px;
+    text-align: center;
+    color: white;
+    border: 2px dashed #00000000;
+    text-shadow: 0 0 3px black
 }
 
 .toolbar {
-display:block;
-position:fixed;
-width: 150px;
-top:0;
-left:0;
-bottom:0;
-padding:80px 5px 0 10px;
-background-color: white;
+    display: block;
+    position: fixed;
+    width: 150px;
+    min-width: 150px;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    padding: 80px 5px 0 10px;
+    background-color: white;
 }
 
 .over {
-border:2px dashed #000
+    border: 2px dashed #000
 }
 
 .tooltip2 {
-position:relative;
-display:inline-block
+    position: relative;
+    display: inline-block
 }
 
 .tooltip2 .tooltiptext {
-visibility:hidden;
-width:120px;
-background-color:black;
-color:#fff;
-text-align:center;
-border-radius:6px;
-padding:5px 0;
-position:absolute;
-z-index:1;
-top:125%;
-left:50%;
-margin-left:-60px
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    top: 125%;
+    left: 50%;
+    margin-left: -60px
 }
 
 .tooltip2 .tooltiptext::after {
-content:"";
-position:absolute;
-bottom:100%;
-left:33%;
-margin-left:-5px;
-border-width:25px;
-border-style:solid;
-border-color:transparent transparent black
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 33%;
+    margin-left: -5px;
+    border-width: 25px;
+    border-style: solid;
+    border-color: transparent transparent black
 }
+
 .tooltip2 div.tooltiptext {
-width:145px;
-top:175%;
+    width: 145px;
+    top: 175%;
 }
+
 .tooltip2:hover .tooltiptext {
-visibility:visible
+    visibility: visible
 }
 
 .tooltip.show {
-opacity:1
+    opacity: 1
 }
 
-.footer{
-position: fixed;
-font-size: 8pt;
-bottom:0;
-left:0;
-right:0;
+.footer {
+    position: fixed;
+    font-size: 8pt;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
 body {
-margin:0
+    margin: 0
 }
 
 .mainContent {
-margin:auto;
-padding-top:20px
+    margin: auto;
+    padding-top: 20px
 }

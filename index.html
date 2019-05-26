@@ -15,16 +15,23 @@
 
     <div id="mainContent" class="mainContent">
 
-        <div class="row">
+        <div class="row" style="margin-right: 0; ">
             <div id="actionBar" class="col-1 toolbar" style="display:none">
                 <div class="row justify-content-start">
                     <div class="col">
-					    <div class="btn-group btn-block" role="group" >
-							<button type="button" class="btn btn-outline-dark disabled" id="undoButton" onclick="doUndoAction()" data-toggle="tooltip" data-html="true" title="Undo the last action" ><span class="oi oi-action-undo"></span>Undo</button>
-							<button type="button" class="btn btn-outline-dark disabled" id="redoButton" onclick="doRedoAction()" data-toggle="tooltip" data-html="true" title="Redo the last action" ><span class="oi oi-action-redo"></span>Redo</button>
+                        <div class="btn-group btn-block" role="group">
+                            <button type="button" class="btn btn-outline-dark disabled" id="undoButton" onclick="doUndoAction()" data-toggle="tooltip" data-html="true" title="Undo the last action"><span class="oi oi-action-undo"></span>Undo</button>
+                            <button type="button" class="btn btn-outline-dark disabled" id="redoButton" onclick="doRedoAction()" data-toggle="tooltip" data-html="true" title="Redo the last action"><span class="oi oi-action-redo"></span>Redo</button>
                         </div>
                         <button type="button" class="btn btn-outline-dark  btn-block" onclick="clickRemoveBorder()" data-toggle="tooltip" data-html="true" title="Removes the border around all sprites. <br><img width=&quot;150px&quot; src=&quot;images/removeBorder.png&quot; alt=&quot;test&quot;/>">Remove Border</button>
                         <button type="button" class="btn btn-outline-dark  btn-block" onclick="clickDrawBorder()" data-toggle="tooltip" data-html="true" title="Adds a border around all sprites. <br><img width=&quot;150px&quot; src=&quot;images/addBorder.png&quot; alt=&quot;test&quot;/>">Draw Border</button>
+
+                        <button type="button" class="btn btn-outline-dark  btn-block" onclick="clickDrawShading()" data-toggle="tooltip" data-html="true" title="Adds a simple shading based on a color ">Draw simple Shading</button>
+                        <div style="margin-top: 5px">
+                            <div class="histEntry tooltip2" draggable="false" data-value="4293117637" id="ShaderPrimeColor" style="Padding:28px 0px; width:70px; font-size: 13px; background: rgb(227, 198, 197);"><span>Primary</span></div>
+                            <div class="histEntry tooltip2" draggable="false" data-value="4291796123" id="ShaderSecondColor" style="Padding:10px 0px; width:60px; background: rgb(207, 156, 155);"><span>Secondary</span></div>
+                            <div class="histEntry tooltip2" draggable="false" data-value="4290343793" id="ShaderThirdColor" style="Padding:10px 0px;position: relative; top:-37px; left:74px; width:60px;background: rgb(185, 115, 113);"><span>Tertiary</span> </div>
+                        </div>
 
                         <!--<button type="button" class="btn btn-outline-dark  btn-block" onclick="clickDetectCorners()">Draw moravec</button>-->
                     </div>
@@ -36,6 +43,7 @@
                                 <span class="input-group-text" id="addon-wrapping"><span class="oi oi-magnifying-glass"></span></span>
                             </div>
                             <select id="zoomlevel" class="form-control dropdown-toggle" onchange="changeZoom()" data-toggle="tooltip" data-html="true" title="Change the zoom">
+                                <option value="700">700%</option>
                                 <option value="500">500%</option>
                                 <option value="400">400%</option>
                                 <option value="300">300%</option>
@@ -84,13 +92,12 @@
                                 <canvas id="canvas">Your browser does not support HTML5. Please use another browser.</canvas>
                             </div>
                             <div class="iLB" style="float: right;width: 400px;">
-							<button type="button" class="btn btn-outline-dark " onclick="clickOptimize()" style="margin:5px;float:right" data-toggle="tooltip" data-html="true" title="Combines colors that look very similar.">optimize colors</button>
-                                
+                                <button type="button" class="btn btn-outline-dark " onclick="clickOptimize()" style="margin:5px;float:right" data-toggle="tooltip" data-html="true" title="Combines colors that look very similar.">optimize colors</button>
+
                                 <h5>Frequency of colors</h5>
                                 <h6>Drag & drop to replace colors.</h6>
                                 <div id="histogram"></div>
-                                <div id="rbgDisplay" style="font-size: 11px">Red: Green: Blue: Alpha: </div>
-                                <h5>Entity Color loader</h5>
+                                <h5 style="margin-top: 25px">Entity Color loader</h5>
                                 <input type="text" placeholder="Search..." id="searchInput" onchange="loadPalettes()">
                                 <br>
                                 <select id="colors" onchange="onEntityColorPaletteChange()" style="margin:5px;">
@@ -101,15 +108,15 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
-
+                
+            </div>
+            <div class="container-fluid footer">
+                <div class="row  justify-content-between"><span class="col-sm">Developed by Wofsauge &copy; 2019</span>
+                    <div id="rbgDisplay" class="col-sm text-right" style="font-size: 11px">Red: Green: Blue: Alpha: </div>
+                </div>
             </div>
 
-            <div>
-            </div>
-
-            <div class="footer"><span>Developed by Wofsauge © 2019</span></div>
             <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
@@ -119,10 +126,16 @@
                 $(document).ready(function() {
                     $('#colorpicker').farbtastic('#colorPicker');
                 });
+
             </script>
             <script src="marvinj-0.9.js"></script>
             <script type="text/javascript" src="monsters.js"></script>
+            <script type="text/javascript" src="costumes.js"></script>
+            <script type="text/javascript" src="bosses.js"></script>
+            <script type="text/javascript" src="familiar.js"></script>
+            <script type="text/javascript" src="items.js"></script>
             <script type="text/javascript" src="processingBeforeUpload.js"></script>
+
 
 </body>
 
