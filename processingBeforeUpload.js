@@ -58,20 +58,21 @@ function loadPalettes() {
     $("#colors").empty();
     $("#colors").append(new Option("-- choose Entity to load its colorpalette --", 0));
     var i = 0;
-    if (searchString == null){
-    $.each(datafamiliar, function (key, value) {
-        if (searchString == null || datafamiliar[i].Name.search(searchString) != -1) {
-            $("#colors").append(new Option(datafamiliar[i].Name, i));
-        }
-        i++;
-    });
-    }else{
-    $.each(data, function (key, value) {
-        if (data[i].Name.search(searchString) != -1) {
-            $("#colors").append(new Option(data[i].Name, i));
-        }
-        i++;
-    });}
+    if (searchString == null) {
+        $.each(datafamiliar, function (key, value) {
+            if (searchString == null || datafamiliar[i].Name.search(searchString) != -1) {
+                $("#colors").append(new Option(datafamiliar[i].Name, i));
+            }
+            i++;
+        });
+    } else {
+        $.each(data, function (key, value) {
+            if (data[i].Name.search(searchString) != -1) {
+                $("#colors").append(new Option(data[i].Name, i));
+            }
+            i++;
+        });
+    }
 }
 
 function addUndoAction() {
@@ -471,16 +472,16 @@ function handleDragEnter(e) {
 }
 
 function handleDragLeave(e) {
-    if (e.dataTransfer.getData('text/lookup') == "true" ) {
+    if (e.dataTransfer.getData('text/lookup') == "true") {
         return false;
     }
     this.classList.remove('over');
-    dragSrcEl.style.opacity = '1';
+    //dragSrcEl.style.opacity = '1';
 }
 
-function handleDrop(e) {
-    if (e.stopPropagation) {
-        e.stopPropagation(); // Stops some browsers from redirecting.
+function handleDrop(target) {
+    if (target.stopPropagation) {
+        target.stopPropagation(); // Stops some browsers from redirecting.
     }
 
     // Don't do anything if dropping the same column we're dragging.
@@ -494,35 +495,41 @@ function handleDrop(e) {
                 g = parseInt(c.slice(2, 4), 16),
                 b = parseInt(c.slice(4, 6), 16);
             imageProcessed.setIntColor(0, 0, 255, r, g, b);
-            replaceColor(e.dataTransfer.getData('text/id'), imageProcessed.getIntColor(0, 0));
+            replaceColor(target.dataTransfer.getData('text/id'), imageProcessed.getIntColor(0, 0));
             imageProcessed.setIntColor(0, 0, tempColor);
             buildHisto();
         } else if (this.dataset.value != null) {
             //drop something on the shading config
             this.dataset.value = dragSrcEl.id;
             this.style.background = dragSrcEl.style.background;
-            this.style.opacity = '1';
+            dragSrcEl.style.opacity = '1';
 
         } else {
             //Droping something on the Histogram Color field
-
-            if (e.dataTransfer.getData('text/lookup') == "true") {
-                return false; //do nothing when dropping a lookup object onto another
-            }
-            
-            replaceColor(e.dataTransfer.getData('text/id'), this.id);
             if (this.parentNode.id == "histogramEntity") {
+                if (target.dataTransfer.getData('text/lookup') == "true") {
+                    //do nothing when dropping a lookup object onto another
+                    return false;
+                }
                 dragSrcEl.style.background = this.style.background;
                 dragSrcEl.style.opacity = '1';
             } else {
-                this.firstChild.innerText = Number(this.firstChild.innerText) + Number(e.dataTransfer.getData('text/html'));
+                if (target.dataTransfer.getData('text/lookup') == "true") {
+                    //replace colors when dragging Lookup onto Histogramm
+
+                    this.style.background = dragSrcEl.style.background;
+                    dragSrcEl.style.opacity = '1';
+                    replaceColor(this.id, dragSrcEl.id);
+                    repaint();
+                    return false;
+                }
+                this.firstChild.innerText = Number(this.firstChild.innerText) + Number(target.dataTransfer.getData('text/html'));
                 dragSrcEl.remove();
             }
+            replaceColor(target.dataTransfer.getData('text/id'), this.id);
         }
-
         repaint();
     }
-
     return false;
 }
 
