@@ -18,8 +18,8 @@
 .toolbar {
     display: block;
     position: fixed;
-    width: 150px;
-    min-width: 150px;
+    width: 160px;
+    min-width: 160px;
     top: 0;
     left: 0;
     bottom: 0;
@@ -27,8 +27,30 @@
     background-color: white;
 }
 
+.submenu {
+    padding: 0px 4px 4px 4px;
+    margin-top: 15px;
+    border: 1px solid #000;
+    border-radius: 3px;
+
+}
+
+.submenu > span {
+    position: relative;
+    top: -8px;
+    font-size: 8pt;
+    background-color: white;
+    float: left;
+    padding: 0px 4px;
+    margin-bottom: 0
+}
+
 .over {
-    border: 2px dashed #000
+    border: 2px dashed #000 !important
+}
+
+.dropable {
+    border: 2px dashed rgba(19, 134, 49, 0.6);
 }
 
 .tooltip2 {

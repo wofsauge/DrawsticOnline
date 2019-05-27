@@ -23,21 +23,26 @@
                             <button type="button" class="btn btn-outline-dark disabled" id="undoButton" onclick="doUndoAction()" data-toggle="tooltip" data-html="true" title="Undo the last action"><span class="oi oi-action-undo"></span>Undo</button>
                             <button type="button" class="btn btn-outline-dark disabled" id="redoButton" onclick="doRedoAction()" data-toggle="tooltip" data-html="true" title="Redo the last action"><span class="oi oi-action-redo"></span>Redo</button>
                         </div>
-                        <button type="button" class="btn btn-outline-dark  btn-block" onclick="clickRemoveBorder()" data-toggle="tooltip" data-html="true" title="Removes the border around all sprites. <br><img width=&quot;150px&quot; src=&quot;images/removeBorder.png&quot; alt=&quot;test&quot;/>">Remove Border</button>
-                        <button type="button" class="btn btn-outline-dark  btn-block" onclick="clickDrawBorder()" data-toggle="tooltip" data-html="true" title="Adds a border around all sprites. <br><img width=&quot;150px&quot; src=&quot;images/addBorder.png&quot; alt=&quot;test&quot;/>">Draw Border</button>
-
-                        <button type="button" class="btn btn-outline-dark  btn-block" onclick="clickDrawShading()" data-toggle="tooltip" data-html="true" title="Adds a simple shading based on a color ">Draw simple Shading</button>
-                        <div style="margin-top: 5px">
-                            <div class="histEntry tooltip2" draggable="false" data-value="4293117637" id="ShaderPrimeColor" style="Padding:28px 0px; width:70px; font-size: 13px; background: rgb(227, 198, 197);"><span>Primary</span></div>
-                            <div class="histEntry tooltip2" draggable="false" data-value="4291796123" id="ShaderSecondColor" style="Padding:10px 0px; width:60px; background: rgb(207, 156, 155);"><span>Secondary</span></div>
-                            <div class="histEntry tooltip2" draggable="false" data-value="4290343793" id="ShaderThirdColor" style="Padding:10px 0px;position: relative; top:-37px; left:74px; width:60px;background: rgb(185, 115, 113);"><span>Tertiary</span> </div>
+                        <div class="submenu">
+                            <span>Border-Tools</span>
+                            <button type="button" class="btn btn-outline-dark  btn-block" onclick="clickRemoveBorder()" data-toggle="tooltip" data-html="true" title="Removes the border around all sprites. <br><img width=&quot;150px&quot; src=&quot;images/removeBorder.png&quot; alt=&quot;test&quot;/>">Remove Border</button>
+                            <button type="button" class="btn btn-outline-dark  btn-block" onclick="clickDrawBorder()" data-toggle="tooltip" data-html="true" title="Adds a border around all sprites. <br><img width=&quot;150px&quot; src=&quot;images/addBorder.png&quot; alt=&quot;test&quot;/>">Draw Border</button>
                         </div>
+                        <div class="submenu">
+                            <span>Shading-Tools</span>
+                            <button type="button" class="btn btn-outline-dark  btn-block" onclick="clickDrawShading()" data-toggle="tooltip" data-html="true" title="Draws a simple shading based on the black border around patches of the primary color in the sprite. Therefore, that color needs to be used in the image somewhere.<br><img width=&quot;150px&quot; src=&quot;images/simpleShading.png&quot; alt=&quot;test&quot;/>" ">Draw simple Shading</button>
+                            <div style="margin-top: 10px">
+                                <div class="histEntry tooltip2" draggable="false" data-value="4293117637" id="ShaderPrimeColor" style="Padding:28px 0px; width:70px; font-size: 13px; background: rgb(227, 198, 197);"><span>Primary</span></div>
+                                <div class="histEntry tooltip2" draggable="false" data-value="4291796123" id="ShaderSecondColor" style="Padding:10px 0px; width:60px; background: rgb(207, 156, 155);"><span>Secondary</span></div>
+                                <div class="histEntry tooltip2" draggable="false" data-value="4290343793" id="ShaderThirdColor" style="Padding:10px 0px;position: relative;float:left; top:-37px; left:74px; width:60px;background: rgb(185, 115, 113);"><span>Tertiary</span> </div>
+                            </div>
 
+                        </div>
                         <!--<button type="button" class="btn btn-outline-dark  btn-block" onclick="clickDetectCorners()">Draw moravec</button>-->
                     </div>
                 </div>
                 <div class="row justify-content-center">
-                    <div class="col" style="margin-top:60px">
+                    <div class="col">
                         <div class=" input-group flex-nowrap">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="addon-wrapping"><span class="oi oi-magnifying-glass"></span></span>
@@ -109,7 +114,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
             <div class="container-fluid footer">
                 <div class="row  justify-content-between"><span class="col-sm">Developed by Wofsauge &copy; 2019</span>

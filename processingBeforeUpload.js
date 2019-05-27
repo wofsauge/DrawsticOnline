@@ -453,6 +453,10 @@ function handleDragStart(e) {
     e.dataTransfer.setData('text/id', this.id);
     e.dataTransfer.setData('text/html', this.firstChild.innerText);
     e.dataTransfer.setData('text/lookup', this.dataset.lookup);
+    
+	[].forEach.call(cols, function (col) {
+        col.classList.add('dropable');
+    });
 }
 
 function handleDragOver(e) {
@@ -502,7 +506,6 @@ function handleDrop(target) {
             //drop something on the shading config
             this.dataset.value = dragSrcEl.id;
             this.style.background = dragSrcEl.style.background;
-            dragSrcEl.style.opacity = '1';
 
         } else {
             //Droping something on the Histogram Color field
@@ -512,13 +515,11 @@ function handleDrop(target) {
                     return false;
                 }
                 dragSrcEl.style.background = this.style.background;
-                dragSrcEl.style.opacity = '1';
             } else {
                 if (target.dataTransfer.getData('text/lookup') == "true") {
                     //replace colors when dragging Lookup onto Histogramm
 
                     this.style.background = dragSrcEl.style.background;
-                    dragSrcEl.style.opacity = '1';
                     replaceColor(this.id, dragSrcEl.id);
                     repaint();
                     return false;
@@ -536,6 +537,8 @@ function handleDrop(target) {
 function handleDragEnd(e) {
 	[].forEach.call(cols, function (col) {
         col.classList.remove('over');
+        col.classList.remove('dropable');
+        col.style.opacity = '1';
     });
 }
 
