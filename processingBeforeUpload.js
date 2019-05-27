@@ -366,6 +366,28 @@ function buildHisto() {
         return b[5] - a[5];
     });
 
+    if (document.getElementById("CheckboxSort").checked) {
+        for (i = 0; i < hist.length; i++) {
+            var smallestD = 25;
+            for (j = 0; j < hist.length; j++) {
+                delta = deltaE(rgb2lab(hist[i][1], hist[i][2], hist[i][3]), rgb2lab(hist[j][1], hist[j][2], hist[j][3]));
+                if (smallestD > delta && delta > 0) {
+                    smallestD = delta;
+                    hist[i][6] = j;
+                    hist[i][7] = hist[j][5];
+                }
+            }
+        }
+
+        for (i = 1; i < hist.length - 1; i++) {
+            var nextEntry = hist[i - 1][6];
+            if (hist[i - 1][5] > hist[nextEntry][5] && hist[nextEntry][6] != null) {
+                var temp = hist[i];
+                hist[i] = hist[nextEntry];
+                hist[nextEntry] = temp;
+            }
+        }
+    }
     var myNode = document.getElementById("histogram").innerHTML = '';
 
     for (i = 0; i < hist.length; i++) {
@@ -375,7 +397,8 @@ function buildHisto() {
         div.setAttribute('onmouseover', 'onHoverHisto(this)');
         div.setAttribute('data-lookup', 'false');
         div.setAttribute('id', hist[i][0]);
-        div.innerHTML = "<span>" + hist[i][5] + "</span>  <span style=\"display: none;\">Red: " + hist[i][1] + " Green: " + hist[i][2] + " Blue: " + hist[i][3] + " Alpha: " + hist[i][4] + "</span>";
+        div.innerHTML = "<span>" + hist[i][5] + "</span>  <span style=\"display: none;\">Red: " + hist[i][1] + " Green: " + hist[i][2] + " Blue: " + hist[i][3] + " Alpha: " + hist[i][4] + " delta: " + hist[i][7] + "</span>";
+
         div.style.background = "rgba(" + hist[i][1] + "," + hist[i][2] + "," + hist[i][3] + "," + hist[i][4] + ")";
         document.getElementById("histogram").appendChild(div);
     }
@@ -453,7 +476,7 @@ function handleDragStart(e) {
     e.dataTransfer.setData('text/id', this.id);
     e.dataTransfer.setData('text/html', this.firstChild.innerText);
     e.dataTransfer.setData('text/lookup', this.dataset.lookup);
-    
+
 	[].forEach.call(cols, function (col) {
         col.classList.add('dropable');
     });

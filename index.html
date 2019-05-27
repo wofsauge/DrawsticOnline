@@ -31,115 +31,116 @@
                         <div class="submenu">
                             <span>Shading-Tools</span>
                             <button type="button" class="btn btn-outline-dark  btn-block" onclick="clickDrawShading()" data-toggle="tooltip" data-html="true" title="Draws a simple shading based on the black border around patches of the primary color in the sprite. Therefore, that color needs to be used in the image somewhere.<br><img width=&quot;150px&quot; src=&quot;images/simpleShading.png&quot; alt=&quot;test&quot;/>" ">Draw simple Shading</button>
-                            <div style="margin-top: 10px">
+                            <div style=" margin-top: 10px">
                                 <div class="histEntry tooltip2" draggable="false" data-value="4293117637" id="ShaderPrimeColor" style="Padding:28px 0px; width:70px; font-size: 13px; background: rgb(227, 198, 197);"><span>Primary</span></div>
                                 <div class="histEntry tooltip2" draggable="false" data-value="4291796123" id="ShaderSecondColor" style="Padding:10px 0px; width:60px; background: rgb(207, 156, 155);"><span>Secondary</span></div>
                                 <div class="histEntry tooltip2" draggable="false" data-value="4290343793" id="ShaderThirdColor" style="Padding:10px 0px;position: relative;float:left; top:-37px; left:74px; width:60px;background: rgb(185, 115, 113);"><span>Tertiary</span> </div>
-                            </div>
+                        </div>
 
-                        </div>
-                        <!--<button type="button" class="btn btn-outline-dark  btn-block" onclick="clickDetectCorners()">Draw moravec</button>-->
                     </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col">
-                        <div class=" input-group flex-nowrap">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="addon-wrapping"><span class="oi oi-magnifying-glass"></span></span>
-                            </div>
-                            <select id="zoomlevel" class="form-control dropdown-toggle" onchange="changeZoom()" data-toggle="tooltip" data-html="true" title="Change the zoom">
-                                <option value="700">700%</option>
-                                <option value="500">500%</option>
-                                <option value="400">400%</option>
-                                <option value="300">300%</option>
-                                <option value="200">200%</option>
-                                <option value="150">150%</option>
-                                <option value="100" selected="true">100%</option>
-                                <option value="50">50%</option>
-                                <option value="25">25%</option>
-                            </select>
-                        </div>
-                        <br>
-                        <div class="form-check tooltip2">
-                            <input id="transparencyCheck" class="form-check-input" onchange="changeOriginalTransparency()" type="checkbox">
-                            <label class="form-check-label" for="transparencyCheck">Show Original</label>
-                            <div class="tooltiptext">
-                                <input type="range" id="transparency" name="points" style="width:110px" onchange="changeOriginalTransparency()" min="0" max="1" step="0.05" value="1">
-                                <label for="transparency"> Transparency</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row justify-content-end">
-                    <div class="col">
-                        <button type="button" style="margin-top:60px" class="btn btn-outline-dark  btn-block" onclick="clickDownload()"><span style="left: -10px;" class="oi oi-data-transfer-download"></span>Download</button>
-                        <button type="button" class="btn btn-outline-danger  btn-block" style="margin-top:10px" onclick="clickReset()" data-toggle="tooltip" data-html="true" title="Restore the original Sprite.">Reset</button>
-                    </div>
+                    <!--<button type="button" class="btn btn-outline-dark  btn-block" onclick="clickDetectCorners()">Draw moravec</button>-->
                 </div>
             </div>
-            <div class="container-fluid" style="margin-left: 150px;">
+            <div class="row justify-content-center">
                 <div class="col">
-
-                    <h2>Sprite Editor</h2>
-                    <div style="height:80px">
-                        Choose an Imagefile:
-                        <form id="picField" style="margin:auto;" method="post" enctype="multipart/form-data">
-                            <input type="file" class="btn btn-outline-dark" id="fileUpload" name="userfile" accept="image/x-png">
-                        </form>
-                        <div id="result"></div>
+                    <div class=" input-group flex-nowrap">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="addon-wrapping"><span class="oi oi-magnifying-glass"></span></span>
+                        </div>
+                        <select id="zoomlevel" class="form-control dropdown-toggle" onchange="changeZoom()" data-toggle="tooltip" data-html="true" title="Change the zoom">
+                            <option value="700">700%</option>
+                            <option value="500">500%</option>
+                            <option value="400">400%</option>
+                            <option value="300">300%</option>
+                            <option value="200">200%</option>
+                            <option value="150">150%</option>
+                            <option value="100" selected="true">100%</option>
+                            <option value="50">50%</option>
+                            <option value="25">25%</option>
+                        </select>
                     </div>
-
-                    <div style="display:none" id="editField">
-                        <div style="width:100%; height: 100%; display:inline-block; background-color:#eeeeee">
-
-                            <div class="iLB">
-                                <canvas id="original" style="position:absolute; opacity:0; display:none">Your browser does not support HTML5. Please use another browser.</canvas>
-                                <canvas id="canvas">Your browser does not support HTML5. Please use another browser.</canvas>
-                            </div>
-                            <div class="iLB" style="float: right;width: 400px;">
-                                <button type="button" class="btn btn-outline-dark " onclick="clickOptimize()" style="margin:5px;float:right" data-toggle="tooltip" data-html="true" title="Combines colors that look very similar.">optimize colors</button>
-
-                                <h5>Frequency of colors</h5>
-                                <h6>Drag & drop to replace colors.</h6>
-                                <div id="histogram"></div>
-                                <h5 style="margin-top: 25px">Entity Color loader</h5>
-                                <input type="text" name="searchbar" placeholder="Search..." id="searchInput" onchange="loadPalettes()">
-                                <br>
-                                <select id="colors" onchange="onEntityColorPaletteChange()" style="margin:5px;">
-                                </select>
-                                <div id="histogramEntity"></div>
-                                <input type="text" id="colorPicker" draggable="false" name="colorPicker" value="#123456" style="float:right;    width: 115px;height: 100px;    text-align: center;" />
-                                <div id="colorpicker" style="float:right"></div>
-                            </div>
+                    <br>
+                    <div class="form-check tooltip2">
+                        <input id="transparencyCheck" class="form-check-input" onchange="changeOriginalTransparency()" type="checkbox">
+                        <label class="form-check-label" for="transparencyCheck">Show Original</label>
+                        <div class="tooltiptext">
+                            <input type="range" id="transparency" name="points" style="width:110px" onchange="changeOriginalTransparency()" min="0" max="1" step="0.05" value="1">
+                            <label for="transparency"> Transparency</label>
                         </div>
                     </div>
                 </div>
-
             </div>
-            <div class="container-fluid footer">
-                <div class="row  justify-content-between"><span class="col-sm">Developed by Wofsauge &copy; 2019</span>
-                    <div id="rbgDisplay" class="col-sm text-right" style="font-size: 11px">Red: Green: Blue: Alpha: </div>
+            <div class="row justify-content-end">
+                <div class="col">
+                    <button type="button" style="margin-top:60px" class="btn btn-outline-dark  btn-block" onclick="clickDownload()"><span style="left: -10px;" class="oi oi-data-transfer-download"></span>Download</button>
+                    <button type="button" class="btn btn-outline-danger  btn-block" style="margin-top:10px" onclick="clickReset()" data-toggle="tooltip" data-html="true" title="Restore the original Sprite.">Reset</button>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid" style="margin-left: 150px;">
+            <div class="col">
+
+                <h2>Sprite Editor</h2>
+                <div style="height:80px">
+                    Choose an Imagefile:
+                    <form id="picField" style="margin:auto;" method="post" enctype="multipart/form-data">
+                        <input type="file" class="btn btn-outline-dark" id="fileUpload" name="userfile" accept="image/x-png">
+                    </form>
+                    <div id="result"></div>
+                </div>
+
+                <div style="display:none" id="editField">
+                    <div style="width:100%; height: 100%; display:inline-block; background-color:#eeeeee">
+
+                        <div class="iLB">
+                            <canvas id="original" style="position:absolute; opacity:0; display:none">Your browser does not support HTML5. Please use another browser.</canvas>
+                            <canvas id="canvas">Your browser does not support HTML5. Please use another browser.</canvas>
+                        </div>
+                        <div class="iLB" style="float: right;width: 400px;">
+                            <button type="button" class="btn btn-outline-dark " onclick="clickOptimize()" style="margin:5px;float:right" data-toggle="tooltip" data-html="true" title="Combines colors that look very similar.">optimize colors</button>
+                            <input type="checkbox" id="CheckboxSort" onclick="buildHisto()"> Sort by color<br>
+
+                            <h5>Frequency of colors</h5>
+                            <h6>Drag & drop to replace colors.</h6>
+                            <div id="histogram"></div>
+                            <h5 style="margin-top: 25px">Entity Color loader</h5>
+                            <input type="text" name="searchbar" placeholder="Search..." id="searchInput" onchange="loadPalettes()">
+                            <br>
+                            <select id="colors" onchange="onEntityColorPaletteChange()" style="margin:5px;">
+                            </select>
+                            <div id="histogramEntity"></div>
+                            <input type="text" id="colorPicker" draggable="false" name="colorPicker" value="#123456" style="float:right;    width: 115px;height: 100px;    text-align: center;" />
+                            <div id="colorpicker" style="float:right"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+        </div>
+        <div class="container-fluid footer">
+            <div class="row  justify-content-between"><span class="col-sm">Developed by Wofsauge &copy; 2019</span>
+                <div id="rbgDisplay" class="col-sm text-right" style="font-size: 11px">Red: Green: Blue: Alpha: </div>
+            </div>
+        </div>
 
-            <script type="text/javascript" src="farbtastic.js"></script>
-            <script type="text/javascript">
-                $(document).ready(function() {
-                    $('#colorpicker').farbtastic('#colorPicker');
-                });
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 
-            </script>
-            <script src="marvinj-0.9.js"></script>
-            <script type="text/javascript" src="monsters.js"></script>
-            <script type="text/javascript" src="costumes.js"></script>
-            <script type="text/javascript" src="bosses.js"></script>
-            <script type="text/javascript" src="familiar.js"></script>
-            <script type="text/javascript" src="items.js"></script>
-            <script type="text/javascript" src="processingBeforeUpload.js"></script>
+        <script type="text/javascript" src="farbtastic.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#colorpicker').farbtastic('#colorPicker');
+            });
+
+        </script>
+        <script src="marvinj-0.9.js"></script>
+        <script type="text/javascript" src="monsters.js"></script>
+        <script type="text/javascript" src="costumes.js"></script>
+        <script type="text/javascript" src="bosses.js"></script>
+        <script type="text/javascript" src="familiar.js"></script>
+        <script type="text/javascript" src="items.js"></script>
+        <script type="text/javascript" src="processingBeforeUpload.js"></script>
 
 
 </body>
