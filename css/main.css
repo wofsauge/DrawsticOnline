@@ -46,17 +46,30 @@
 }
 
 .over {
+    position: relative;
     border: 2px dashed #000 !important
 }
 
 .dropable {
+    position: relative;
     border: 2px dashed rgba(19, 134, 49, 0.6);
 }
 
+.colorpicked:before, .over:before {
+    content: " ";
+    position: absolute;
+    z-index: 1;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    border: 1px solid #fff;
+}
+
 .colorpicked {
-    border: 4px solid rgb(13, 185, 10);
-    margin: 0px 5px;
-    padding: 8px 0px;
+    border: 2px solid rgb(19, 179, 0);
+    position: relative;
+    margin: 0px 4px;
 }
 
 .tooltip2 {
