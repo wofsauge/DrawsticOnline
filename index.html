@@ -48,6 +48,7 @@
                             <span class="input-group-text" id="addon-wrapping"><span class="oi oi-magnifying-glass"></span></span>
                         </div>
                         <select id="zoomlevel" class="form-control dropdown-toggle" onchange="changeZoom()" data-toggle="tooltip" data-html="true" title="Change the zoom">
+                            <option value="1000">1000%</option>
                             <option value="700">700%</option>
                             <option value="500">500%</option>
                             <option value="400">400%</option>
@@ -59,7 +60,11 @@
                             <option value="25">25%</option>
                         </select>
                     </div>
+
                     <br>
+                    <button type="button" class="btn btn-outline-dark btn-block" id="ButtonColorpicker" onclick="clickPicker()" data-toggle="tooltip" data-html="true" title="Click on a color to find it."><span class="oi oi-eyedropper"></span> pick color </button>
+                    <br>
+
                     <div class="form-check tooltip2">
                         <input id="transparencyCheck" class="form-check-input" onchange="changeOriginalTransparency()" type="checkbox">
                         <label class="form-check-label" for="transparencyCheck">Show Original</label>
@@ -94,10 +99,11 @@
 
                         <div class="iLB">
                             <canvas id="original" style="position:absolute; opacity:0; display:none">Your browser does not support HTML5. Please use another browser.</canvas>
-                            <canvas id="canvas">Your browser does not support HTML5. Please use another browser.</canvas>
+                            <canvas id="canvas" onclick="clickCanvas(event)">Your browser does not support HTML5. Please use another browser.</canvas>
                         </div>
                         <div class="iLB" style="float: right;width: 400px;">
                             <button type="button" class="btn btn-outline-dark " onclick="clickOptimize()" style="margin:5px;float:right" data-toggle="tooltip" data-html="true" title="Combines colors that look very similar.">optimize colors</button>
+
                             <input type="checkbox" id="CheckboxSort" onclick="buildHisto()"> Sort by color<br>
 
                             <h5>Frequency of colors</h5>
@@ -111,6 +117,7 @@
                             <div id="histogramEntity"></div>
                             <input type="text" id="colorPicker" draggable="false" name="colorPicker" value="#123456" style="float:right;    width: 115px;height: 100px;    text-align: center;" />
                             <div id="colorpicker" style="float:right"></div>
+
                         </div>
                     </div>
                 </div>

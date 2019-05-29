@@ -53,6 +53,12 @@
     border: 2px dashed rgba(19, 134, 49, 0.6);
 }
 
+.colorpicked {
+    border: 4px solid rgb(13, 185, 10);
+    margin: 0px 5px;
+    padding: 8px 0px;
+}
+
 .tooltip2 {
     position: relative;
     display: inline-block

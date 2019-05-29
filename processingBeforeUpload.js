@@ -604,6 +604,54 @@ function deltaE(labA, labB) {
     return i < 0 ? 0 : Math.sqrt(i);
 }
 
+var enableColorpicker = false;
+var lastHover;
+
+function clickCanvas(evt) {
+    if (enableColorpicker) {
+        var context = canvas.getContext("2d");
+
+        var pos = getMousePos(canvas, evt);
+
+        //context.fillStyle = "#000000";
+        //context.fillRect(pos.x - pos.x % scale, pos.y - pos.y % scale, scale, scale);
+        console.log(Math.floor(pos.x / scale)+" "+ Math.floor(pos.y / scale));
+        var currentHover = imageProcessed.getIntColor(Math.floor(pos.x / scale), Math.floor(pos.y / scale));
+        if (document.getElementById(currentHover) == null) {
+            return;
+        }
+        if (lastHover != null && currentHover != lastHover) {
+            document.getElementById(lastHover).classList.remove('colorpicked');
+        }
+        document.getElementById(currentHover).classList.add('colorpicked');
+        lastHover = currentHover;
+    }
+}
+
+function clickPicker() {
+    enableColorpicker = !enableColorpicker;
+    if (enableColorpicker) {
+        document.getElementById("ButtonColorpicker").classList.add('btn-dark');
+        document.getElementById("ButtonColorpicker").classList.remove('btn-outline-dark');
+    } else {
+        document.getElementById("ButtonColorpicker").classList.remove('btn-dark');
+        document.getElementById("ButtonColorpicker").classList.add('btn-outline-dark');
+        document.getElementById(lastHover).classList.remove('colorpicked');
+        lastHover = null;
+    }
+}
+
+function getMousePos(canvas, evt) {
+    var rect = canvas.getBoundingClientRect(), // abs. size of element
+        scaleX = canvas.width / rect.width, // relationship bitmap vs. element for X
+        scaleY = canvas.height / rect.height; // relationship bitmap vs. element for Y
+
+    return {
+        x: (evt.clientX - rect.left) * scaleX, // scale mouse coordinates after they have
+        y: (evt.clientY - rect.top) * scaleY // been adjusted to be relative to element
+    }
+}
+
 var shadingMask = [[[0, 0, 1, 0, 0],
 						[0, 1, 1, 1, 0],
 						[0, 0, 0, 0, 0],
