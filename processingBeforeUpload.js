@@ -378,6 +378,7 @@ var lastHover;
 var timeOut = 0;
 var m_pos_x, m_pos_y;
 var bucketBlocker = false;
+var undoBlocker = false;
 window.onmousemove = function (e) {
     m_pos_x = e.clientX;
     m_pos_y = e.clientY;
@@ -398,10 +399,18 @@ $(canvas).on('mousedown touchstart', function (e) {
             document.getElementById(currentHover).classList.add('colorpicked');
             lastHover = currentHover;
         } else if (document.getElementById("ButtonPencil").checked) {
+            if (!undoBlocker) {
+                addUndoAction();
+                undoBlocker = true;
+            }
             var PrimColor = document.getElementById("ShaderPrimeColor").dataset.value;
             imageProcessed.setIntColor(Math.floor(pos.x / scale), Math.floor(pos.y / scale), PrimColor);
             repaint();
         } else if (document.getElementById("ButtonBucket").checked && !bucketBlocker) {
+            if (!undoBlocker) {
+                addUndoAction();
+                undoBlocker = true;
+            }
             bucketBlocker = true;
             var todolist = [];
             var PrimColor = document.getElementById("ShaderPrimeColor").dataset.value;
@@ -424,6 +433,7 @@ $(canvas).on('mousedown touchstart', function (e) {
     buildHisto();
     clearInterval(timeOut);
     bucketBlocker = false;
+    undoBlocker = false;
 });
 
 
