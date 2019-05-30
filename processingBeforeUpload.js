@@ -99,7 +99,7 @@ function onEntityColorPaletteChange() {
         div.setAttribute('data-lookup', 'true');
         div.setAttribute('id', imageProcessed.getIntColor(0, 0));
         div.classList.add("tooltip2");
-        div.innerHTML =color.count + "<span class=\"tooltiptext\">Red: " + color.R + " Green: " + color.G + " Blue: " + color.B + " Alpha: " + color.A + "</span>";
+        div.innerHTML = color.count + "<span class=\"tooltiptext\">Red: " + color.R + " Green: " + color.G + " Blue: " + color.B + " Alpha: " + color.A + "</span>";
         div.style.background = "rgba(" + color.R + "," + color.G + "," + color.B + "," + color.A + ")";
         document.getElementById("histogramEntity").appendChild(div);
     }
@@ -249,13 +249,7 @@ function handleDragStart(e) {
         col.classList.add('dropable');
     });
 
-    if (enableColorpicker) {
-        document.getElementById("ButtonColorpicker").classList.remove('btn-dark');
-        document.getElementById("ButtonColorpicker").classList.add('btn-outline-dark');
-        document.getElementById(lastHover).classList.remove('colorpicked');
-        enableColorpicker = false;
-        lastHover = null;
-    }
+    document.getElementById("ButtonMaus").checked;
 }
 
 function handleDragOver(e) {
@@ -380,42 +374,58 @@ function deltaE(labA, labB) {
     return i < 0 ? 0 : Math.sqrt(i);
 }
 
-var enableColorpicker = false;
 var lastHover;
-
-function clickCanvas(evt) {
-    if (enableColorpicker) {
-        var context = canvas.getContext("2d");
-
-        var pos = getMousePos(canvas, evt);
-
-        //context.fillStyle = "#000000";
-        //context.fillRect(pos.x - pos.x % scale, pos.y - pos.y % scale, scale, scale);
-        console.log(Math.floor(pos.x / scale) + " " + Math.floor(pos.y / scale));
-        var currentHover = imageProcessed.getIntColor(Math.floor(pos.x / scale), Math.floor(pos.y / scale));
-        if (document.getElementById(currentHover) == null) {
-            return;
-        }
-        if (lastHover != null && currentHover != lastHover) {
-            document.getElementById(lastHover).classList.remove('colorpicked');
-        }
-        document.getElementById(currentHover).classList.add('colorpicked');
-        lastHover = currentHover;
-    }
+var timeOut = 0;
+var m_pos_x, m_pos_y;
+var bucketBlocker = false;
+window.onmousemove = function (e) {
+    m_pos_x = e.clientX;
+    m_pos_y = e.clientY;
 }
 
-function clickPicker() {
-    enableColorpicker = !enableColorpicker;
-    if (enableColorpicker) {
-        document.getElementById("ButtonColorpicker").classList.add('btn-dark');
-        document.getElementById("ButtonColorpicker").classList.remove('btn-outline-dark');
-    } else {
-        document.getElementById("ButtonColorpicker").classList.remove('btn-dark');
-        document.getElementById("ButtonColorpicker").classList.add('btn-outline-dark');
-        document.getElementById(lastHover).classList.remove('colorpicked');
-        lastHover = null;
-    }
-}
+$(canvas).on('mousedown touchstart', function (e) {
+    var context = canvas.getContext("2d");
+    timeOut = setInterval(function () {
+        var pos = getMousePos(canvas, e);
+        if (document.getElementById("ButtonColorpicker").checked) {
+            var currentHover = imageProcessed.getIntColor(Math.floor(pos.x / scale), Math.floor(pos.y / scale));
+            if (document.getElementById(currentHover) == null) {
+                return;
+            }
+            if (lastHover != null && currentHover != lastHover) {
+                document.getElementById(lastHover).classList.remove('colorpicked');
+            }
+            document.getElementById(currentHover).classList.add('colorpicked');
+            lastHover = currentHover;
+        } else if (document.getElementById("ButtonPencil").checked) {
+            var PrimColor = document.getElementById("ShaderPrimeColor").dataset.value;
+            imageProcessed.setIntColor(Math.floor(pos.x / scale), Math.floor(pos.y / scale), PrimColor);
+            repaint();
+        } else if (document.getElementById("ButtonBucket").checked && !bucketBlocker) {
+            bucketBlocker = true;
+            var todolist = [];
+            var PrimColor = document.getElementById("ShaderPrimeColor").dataset.value;
+            var clickedColor = imageProcessed.getIntColor(Math.floor(pos.x / scale), Math.floor(pos.y / scale));
+            todolist.push([Math.floor(pos.x / scale), Math.floor(pos.y / scale)]);
+            while (todolist.length > 0) {
+                var item = todolist.pop();
+                if (imageProcessed.getIntColor(item[0], item[1]) == clickedColor & imageProcessed.getIntColor(item[0], item[1]) != PrimColor) {
+                    imageProcessed.setIntColor(item[0], item[1], PrimColor);
+                    todolist.push([item[0] + 1, item[1]]);
+                    todolist.push([item[0], item[1] + 1]);
+                    todolist.push([item[0] - 1, item[1]]);
+                    todolist.push([item[0], item[1] - 1]);
+                }
+            }
+            repaint();
+        }
+    }, 10);
+}).bind('mouseup mouseleave touchend', function () {
+    buildHisto();
+    clearInterval(timeOut);
+    bucketBlocker = false;
+});
+
 
 function getMousePos(canvas, evt) {
     var rect = canvas.getBoundingClientRect(), // abs. size of element
@@ -423,8 +433,8 @@ function getMousePos(canvas, evt) {
         scaleY = canvas.height / rect.height; // relationship bitmap vs. element for Y
 
     return {
-        x: (evt.clientX - rect.left) * scaleX, // scale mouse coordinates after they have
-        y: (evt.clientY - rect.top) * scaleY // been adjusted to be relative to element
+        x: (m_pos_x - rect.left) * scaleX, // scale mouse coordinates after they have
+        y: (m_pos_y - rect.top) * scaleY // been adjusted to be relative to element
     }
 }
 
