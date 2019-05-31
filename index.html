@@ -25,7 +25,7 @@
 
 
                         </div>
-                        <div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
+                        <div class="btn-group btn-group-toggle btn-block" data-toggle="buttons" onmouseleave="updateCursor()">
                             <label class="btn btn-outline-dark active">
                                 <input type="radio" name="options" id="ButtonMaus" autocomplete="off" checked><span class="oi oi-location"></span>
                             </label>
@@ -47,7 +47,7 @@
                         <div class="submenu">
                             <span>Shading-Tools</span>
                             <button type="button" class="btn btn-outline-dark  btn-block" onclick="clickDrawShading()" data-toggle="tooltip" data-html="true" title="Draws a simple shading based on the black border around patches of the primary color in the sprite. Therefore, that color needs to be used in the image somewhere.<br><img width=&quot;150px&quot; src=&quot;images/simpleShading.png&quot; alt=&quot;test&quot;/>" ">Draw simple Shading</button>
-                            <div style="margin-top: 10px">
+                            <div style=" margin-top: 10px">
                                 <div class="histEntry tooltip2" draggable="false" data-value="4293117637" id="ShaderPrimeColor" style="Padding:28px 0px; width:70px; font-size: 13px; background: rgb(227, 198, 197);">Primary</div>
                                 <div class="histEntry tooltip2" draggable="false" data-value="4291796123" id="ShaderSecondColor" style="Padding:10px 0px; width:60px; background: rgb(207, 156, 155);">Secondary</div>
                                 <div class="histEntry tooltip2" draggable="false" data-value="4290343793" id="ShaderThirdColor" style="Padding:10px 0px;position: relative;float:left; top:-37px; left:74px; width:60px;background: rgb(185, 115, 113);">Tertiary</div>
@@ -110,11 +110,14 @@
 
                 <div style="display:none" id="editField">
                     <div style="width:100%; height: 100%; display:inline-block; background-color:#eeeeee">
-
+                        <!---------------------CANVAS-------------------->
                         <div class="iLB">
                             <canvas id="original" style="position:absolute; opacity:0; display:none">Your browser does not support HTML5. Please use another browser.</canvas>
-                            <canvas id="canvas">Your browser does not support HTML5. Please use another browser.</canvas>
+                            <canvas id="canvas" style="border:1px dotted;">Your browser does not support HTML5. Please use another browser.</canvas>
                         </div>
+
+
+                        <!---------------------Image Histogram-------------------->
                         <div class="iLB" style="float: right;width: 400px;">
                             <button type="button" class="btn btn-outline-dark " onclick="clickOptimize()" style="margin:5px;float:right" data-toggle="tooltip" data-html="true" title="Combines colors that look very similar.">optimize colors</button>
 
@@ -123,12 +126,21 @@
                             <h5>Frequency of colors</h5>
                             <h6>Drag & drop to replace colors.</h6>
                             <div id="histogram"></div>
-                            <h5 style="margin-top: 25px">Entity Color loader</h5>
-                            <input type="text" name="searchbar" placeholder="Search..." id="searchInput" onchange="loadPalettes()">
-                            <br>
-                            <select id="colors" onchange="onEntityColorPaletteChange()" style="margin:5px;">
-                            </select>
+
+
+                            <!---------------------Histogram loader-------------------->
+                            <h5 style="margin-top: 25px">Colorpalette loader</h5>
+                            <div class="btn-group" style="margin:10px;width:350px">
+                                <input type="text" name="searchbar" class="btn btn-light" placeholder="Search..." id="searchInput" onkeyup="loadPalettes()">
+                                <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" data-reference="parent" id="paletteDropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <div class="dropdown-menu" id="paletteDropdownmenu" style="max-height: 280px;overflow-y: auto;">
+                                </div>
+                            </div>
                             <div id="histogramEntity"></div>
+
+                            <!---------------------Colorpicker-------------------->
                             <input type="text" id="colorPicker" draggable="false" name="colorPicker" value="#123456" style="float:right;    width: 115px;height: 100px;    text-align: center;" />
                             <div id="colorpicker" style="float:right"></div>
 

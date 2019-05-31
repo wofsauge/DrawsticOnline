@@ -72,6 +72,17 @@
     margin: 0px 4px;
 }
 
+.colorpicker{
+    cursor: url("../open-iconic/png/eyedropper-2xPointer.png") 0 16, auto;
+}
+.pencil{
+    cursor: url("../open-iconic/png/pencil-2xPointer.png") 0 16, auto;
+}
+.bucket{
+    cursor: url("../open-iconic/png/beaker-2xPointer.png") 0 0, auto;
+}
+
+
 .tooltip2 {
     position: relative;
     display: inline-block
@@ -131,4 +142,14 @@ body {
 .mainContent {
     margin: auto;
     padding-top: 20px
+}
+
+/*Bootstrap edits*/
+.dropdown-item{
+    font-size: 0.8rem;
+        padding: 0rem 1rem;
+}
+.dropdown-header{
+    font-size: 1rem;
+    padding: 0.2rem 0.4rem;
 }

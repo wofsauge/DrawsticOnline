@@ -1,4 +1,4 @@
-data=[
+dataEnemies=[
   {
     "Name": "flaminggaper",
     "frequentColors": [

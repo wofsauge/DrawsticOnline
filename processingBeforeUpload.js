@@ -54,26 +54,52 @@ $(document).ready(function () {
     loadPalettes();
 });
 
+var datasets = [dataEnemies, dataitems, datacostumes, databosses];
+var datasetNames = ["Entities", "Items", "Costumes", "Bosses"];
+
 function loadPalettes() {
     searchString = document.getElementById("searchInput").value;
-    $("#colors").empty();
-    $("#colors").append(new Option("-- choose Entity to load its colorpalette --", 0));
-    var i = 0;
-    console.log(searchString);
-    if (searchString == null) {
-        $.each(datafamiliar, function (key, value) {
-            if (searchString == null || datafamiliar[i].Name.search(searchString) != -1) {
-                $("#colors").append(new Option(datafamiliar[i].Name, i));
+    document.getElementById("paletteDropdownmenu").innerHTML = '';
+    if (searchString != null && searchString != "") {
+        var s = 0;
+        datasets.forEach(function (set) {
+            var i = 0;
+            var counter = 0;
+            $.each(set, function (key, value) {
+                if (set[i].Name.search(searchString) != -1) {
+                    counter++;
+                    if (counter == 1) {
+                        var div2 = document.createElement("h6");
+                        div2.setAttribute('class', 'dropdown-header');
+                        div2.innerHTML = datasetNames[s];
+                        document.getElementById("paletteDropdownmenu").appendChild(div2);
+                    }
+                    if (counter <= 10) {
+                        var div = document.createElement("button");
+                        div.setAttribute('class', 'dropdown-item');
+                        div.setAttribute('onmouseup', 'onColorPaletteChange(' + i + ')');
+                        div.innerHTML = set[i].Name;
+                        document.getElementById("paletteDropdownmenu").appendChild(div);
+                    }
+                }
+                i++;
+            });
+            if (counter >= 10) {
+                $("#paletteDropdown").dropdown('show');
+                var div = document.createElement("button");
+                div.setAttribute('class', 'dropdown-item');
+                div.setAttribute('style', 'color: #a0a0a0;');
+                div.innerHTML = counter - 10 + " more results...";
+                document.getElementById("paletteDropdownmenu").appendChild(div);
             }
-            i++;
+            s++;
         });
+        $("#paletteDropdown").dropdown('show');
     } else {
-        $.each(data, function (key, value) {
-            if (data[i].Name.search(searchString) != -1) {
-                $("#colors").append(new Option(data[i].Name, i));
-            }
-            i++;
-        });
+        var div = document.createElement("p");
+        div.setAttribute('style', 'text-align:center');
+        div.innerHTML = "Search for anything Isaac related in order to load its colorpalette.";
+        document.getElementById("paletteDropdownmenu").appendChild(div);
     }
 }
 
@@ -86,10 +112,10 @@ function addUndoAction() {
     document.getElementById("redoButton").classList.add("disabled");
 }
 
-function onEntityColorPaletteChange() {
+function onColorPaletteChange(entityID) {
     var tempColor = imageProcessed.getIntColor(0, 0);
+    document.getElementById("searchInput").value = data[entityID].Name;
     var myNode = document.getElementById("histogramEntity").innerHTML = '';
-    entityID = document.getElementById("colors").value;
     for (i = 0; i < data[entityID].frequentColors.length; i++) {
         color = data[entityID].frequentColors[i];
         imageProcessed.setIntColor(0, 0, color.A, color.R, color.G, color.B);
@@ -113,6 +139,7 @@ function onEntityColorPaletteChange() {
         col.addEventListener('dragend', handleDragEnd, false);
     });
     imageProcessed.setIntColor(0, 0, tempColor);
+    $("#paletteDropdown").dropdown('hide');
 }
 
 function imageLoaded() {
@@ -435,6 +462,23 @@ $(canvas).on('mousedown touchstart', function (e) {
     bucketBlocker = false;
     undoBlocker = false;
 });
+
+function updateCursor() {
+    canvas.classList.remove('colorpicker');
+    canvas.classList.remove('pencil');
+    canvas.classList.remove('bucket');
+    console.log("jup");
+    if (document.getElementById("ButtonColorpicker").checked) {
+        canvas.classList.add('colorpicker');
+        console.log("1");
+    } else if (document.getElementById("ButtonPencil").checked) {
+        canvas.classList.add('pencil');
+        console.log("2");
+    } else if (document.getElementById("ButtonBucket").checked) {
+        canvas.classList.add('bucket');
+        console.log("3");
+    }
+}
 
 
 function getMousePos(canvas, evt) {
