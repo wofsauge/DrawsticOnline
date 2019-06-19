@@ -120,16 +120,20 @@ function onColorPaletteChange(entityID) {
         color = data[entityID].frequentColors[i];
         imageProcessed.setIntColor(0, 0, color.A, color.R, color.G, color.B);
         var div = document.createElement("div");
-        div.setAttribute('class', 'histEntry');
+        var divWrap = document.createElement("div");
+        divWrap.setAttribute('class', 'histEntry');
+        div.setAttribute('class', 'histEntryInner');
         div.setAttribute('draggable', 'true');
         div.setAttribute('data-lookup', 'true');
         div.setAttribute('id', imageProcessed.getIntColor(0, 0));
         div.classList.add("tooltip2");
         div.innerHTML = color.count + "<span class=\"tooltiptext\">Red: " + color.R + " Green: " + color.G + " Blue: " + color.B + " Alpha: " + color.A + "</span>";
-        div.style.background = "rgba(" + color.R + "," + color.G + "," + color.B + "," + color.A + ")";
-        document.getElementById("histogramEntity").appendChild(div);
+        div.style.background = "rgba(" + color.R + "," + color.G + "," + color.B + "," + color.A/255 + ")";
+        
+		document.getElementById("histogramEntity").appendChild(divWrap);
+		divWrap.appendChild(div);
     }
-    cols = document.querySelectorAll('.histEntry');
+    cols = document.querySelectorAll('.histEntryInner');
 	[].forEach.call(cols, function (col) {
         col.addEventListener('dragstart', handleDragStart, false);
         col.addEventListener('dragenter', handleDragEnter, false)
@@ -175,6 +179,9 @@ function replaceColor(oldColor, newColor) {
             }
         }
     }
+}
+function removeColor(Color) {
+    replaceColor(Color, 0xFF000000);
 }
 
 var hist = [];
@@ -232,18 +239,21 @@ function buildHisto() {
     var myNode = document.getElementById("histogram").innerHTML = '';
 
     for (i = 0; i < hist.length; i++) {
+        var divWrap = document.createElement("div");
+        divWrap.setAttribute('class', 'histEntry');
         var div = document.createElement("div");
-        div.setAttribute('class', 'histEntry');
+        div.setAttribute('class', 'histEntryInner');
         div.setAttribute('draggable', 'true');
         div.setAttribute('onmouseover', 'onHoverHisto(this)');
         div.setAttribute('data-lookup', 'false');
         div.setAttribute('id', hist[i][0]);
         div.innerHTML = hist[i][5] + "<span style=\"display: none;\">Red: " + hist[i][1] + " Green: " + hist[i][2] + " Blue: " + hist[i][3] + " Alpha: " + hist[i][4] + " delta: " + hist[i][7] + "</span>";
 
-        div.style.background = "rgba(" + hist[i][1] + "," + hist[i][2] + "," + hist[i][3] + "," + hist[i][4] + ")";
-        document.getElementById("histogram").appendChild(div);
+        div.style.background = "rgba(" + hist[i][1] + "," + hist[i][2] + "," + hist[i][3] + "," + hist[i][4]/255 + ")";
+        document.getElementById("histogram").appendChild(divWrap);
+		divWrap.appendChild(div);
     }
-    cols = document.querySelectorAll('.histEntry');
+    cols = document.querySelectorAll('.histEntryInner');
 	[].forEach.call(cols, function (col) {
         col.addEventListener('dragstart', handleDragStart, false);
         col.addEventListener('dragenter', handleDragEnter, false);
@@ -275,6 +285,7 @@ function handleDragStart(e) {
 	[].forEach.call(cols, function (col) {
         col.classList.add('dropable');
     });
+        document.getElementById("colorPicker").classList.add('dropable');
 
     document.getElementById("ButtonMaus").checked;
 }
@@ -345,7 +356,7 @@ function handleDrop(target) {
                     return false;
                 }
                 this.firstChild.innerText = Number(this.firstChild.innerText) + Number(target.dataTransfer.getData('text/html'));
-                dragSrcEl.remove();
+                dragSrcEl.parentElement.remove();
             }
             replaceColor(target.dataTransfer.getData('text/id'), this.id);
         }
@@ -358,6 +369,7 @@ function handleDragEnd(e) {
 	[].forEach.call(cols, function (col) {
         col.classList.remove('over');
         col.classList.remove('dropable');
+        document.getElementById("colorPicker").classList.remove('dropable');
         col.style.opacity = '1';
     });
 }

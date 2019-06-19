@@ -6,13 +6,23 @@
 .histEntry {
     display: inline-block;
     vertical-align: top;
-    width: 35px;
+    width: 36px;
     font-size: 7pt;
-    padding: 10px 5px;
     text-align: center;
     color: white;
-    border: 2px dashed #00000000;
+    border: 1px solid #eee;
+	border-width: 1px 2px;
+	z-index:2;
+	background-image:url("../images/raster.png") ;
     text-shadow: 0 0 3px black
+}
+.histEntryInner {
+    display: inline-block;
+    vertical-align: top;
+    width: 35px;
+    padding: 10px 5px;
+	z-index:3;
+    border: 2px dashed #00000000;
 }
 
 .toolbar {
@@ -47,12 +57,14 @@
 
 .over {
     position: relative;
-    border: 2px dashed #000 !important
+    border: 2px solid #000 !important;
+	border-width: 1px 2px;
 }
 
 .dropable {
     position: relative;
-    border: 2px dashed rgba(19, 134, 49, 0.6);
+    border: 2px solid #00f518;
+	border-width: 1px 2px;
 }
 
 .colorpicked:before, .over:before {
@@ -153,3 +165,4 @@ body {
     font-size: 1rem;
     padding: 0.2rem 0.4rem;
 }
+.footer{background:rgba(255,255,255,0.5)}

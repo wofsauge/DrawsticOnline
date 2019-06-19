@@ -186,17 +186,45 @@ function clickReset() {
     repaint();
 }
 
-function clickOptimize() {
+function clickOptimize(strength) {
     addUndoAction();
-    for (i = hist.length - 1; i >= 0; i--) {
+	var finList = [];
+    progressbar = document.getElementById("progressbar");
+    progressbar.parentElement.style.display = "block";
+    progressbar.style.width = "0%";
+    progressbar.setAttribute('aria-valuenow', 0);
+        progressbar.innerHTML= "0%";
+	var i = 0;
+	var current = -10;
+  var interv = setInterval(frame, 17);
+  function frame() {
+	if( i <hist.length - 1) {
+		if(i==current){return;}
+		current = i;
+		if(!finList[i]){
         for (j = hist.length - 1; j >= 0; j--) {
+			if(finList[j]){continue;}
             delta = deltaE(rgb2lab(hist[i][1], hist[i][2], hist[i][3]), rgb2lab(hist[j][1], hist[j][2], hist[j][3]));
-            if (delta > 0 && delta < 2 && Math.abs(hist[i][4] - hist[j][4]) < 100) {
+            if ((delta > 0 ||(delta ==0 && i!=j)) && delta < strength && Math.abs(hist[i][4] - hist[j][4]) < 100) {
                 replaceColor(hist[j][0], hist[i][0]);
+				finList[j]=true; 
             }
-        }
-    }
+			else if(hist[j][4]<=25){
+				removeColor(hist[j][0])
+			}
+        }}
+		var progress= Math.round(i/hist.length*10000)/100;
+        progressbar.style.width = progress+"%";
+        progressbar.setAttribute('aria-valuenow', progress);
+        progressbar.innerHTML= progress+"%";
+		i++;
+    }else{
+      clearInterval(interv);
     buildHisto();
+    progressbar.parentElement.style.display = "none";
+	}
+  }
+
 }
 
 function clickDetectCorners() {

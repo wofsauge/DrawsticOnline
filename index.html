@@ -48,10 +48,14 @@
                             <span>Shading-Tools</span>
                             <button type="button" class="btn btn-outline-dark  btn-block" onclick="clickDrawShading()" data-toggle="tooltip" data-html="true" title="Draws a simple shading based on the black border around patches of the primary color in the sprite. Therefore, that color needs to be used in the image somewhere.<br><img width=&quot;150px&quot; src=&quot;images/simpleShading.png&quot; alt=&quot;test&quot;/>" ">Draw simple Shading</button>
                             <div style=" margin-top: 10px">
-                                <div class="histEntry tooltip2" draggable="false" data-value="4293117637" id="ShaderPrimeColor" style="Padding:28px 0px; width:70px; font-size: 13px; background: rgb(227, 198, 197);">Primary</div>
-                                <div class="histEntry tooltip2" draggable="false" data-value="4291796123" id="ShaderSecondColor" style="Padding:10px 0px; width:60px; background: rgb(207, 156, 155);">Secondary</div>
-                                <div class="histEntry tooltip2" draggable="false" data-value="4290343793" id="ShaderThirdColor" style="Padding:10px 0px;position: relative;float:left; top:-37px; left:74px; width:60px;background: rgb(185, 115, 113);">Tertiary</div>
-                        </div>
+							<div class="histEntry" style="width:70px;">
+                                <div class="histEntryInner tooltip2" draggable="false" data-value="4293117637" id="ShaderPrimeColor" style="Padding:28px 0px; width:70px; font-size: 13px; background: rgb(227, 198, 197);">Primary</div>
+</div>                      <div class="histEntry" style="width:60px;">      
+							<div class="histEntryInner tooltip2" draggable="false" data-value="4291796123" id="ShaderSecondColor" style="Padding:10px 0px; width:60px; background: rgb(207, 156, 155);">Secondary</div>
+ </div><div class="histEntry" style="position: relative;float:left; top:-37px; left:74px;width:60px;">
+ <div class="histEntryInner tooltip2" draggable="false" data-value="4290343793" id="ShaderThirdColor" style="Padding:10px 0px;background: rgb(185, 115, 113); width:60px;">Tertiary</div>
+							</div>
+						</div>
 
                     </div>
                     <!--<button type="button" class="btn btn-outline-dark  btn-block" onclick="clickDetectCorners()">Draw moravec</button>-->
@@ -112,17 +116,31 @@
                     <div style="width:100%; height: 100%; display:inline-block; background-color:#eeeeee">
                         <!---------------------CANVAS-------------------->
                         <div class="iLB">
-                            <canvas id="original" style="position:absolute; opacity:0; display:none">Your browser does not support HTML5. Please use another browser.</canvas>
+                            <canvas id="original" style="position:absolute; opacity:0;border:1px dotted; display:none">Your browser does not support HTML5. Please use another browser.</canvas>
                             <canvas id="canvas" style="border:1px dotted;">Your browser does not support HTML5. Please use another browser.</canvas>
                         </div>
 
 
                         <!---------------------Image Histogram-------------------->
                         <div class="iLB" style="float: right;width: 400px;">
-                            <button type="button" class="btn btn-outline-dark " onclick="clickOptimize()" style="margin:5px;float:right" data-toggle="tooltip" data-html="true" title="Combines colors that look very similar.">optimize colors</button>
-
-                            <input type="checkbox" id="CheckboxSort" onclick="buildHisto()"> Sort by color<br>
-
+                            <div class="btn-group" style="margin:8px; float:right">
+								<button type="button" class="btn btn-outline-dark " onclick="clickOptimize(2)" data-toggle="tooltip" data-html="true" title="Combines colors that look very similar.">optimize colors</button>
+								<button type="button" class="btn btn-outline-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"  id="optimizeDropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <div class="dropdown-menu" id="optimizeDropdown" style="max-height: 280px;font-size:9pt;overflow-y: auto;">
+								<button type="button" class="btn btn-outline-dark dropdown-item" onclick="clickOptimize(5)">Double Strength</button>
+								<button type="button" class="btn btn-outline-dark dropdown-item" onclick="clickOptimize(10)">Triple Strength</button>
+								<button type="button" class="btn btn-outline-dark dropdown-item" onclick="clickOptimize(15)">Brutal</button>
+								<button type="button" class="btn btn-outline-dark dropdown-item" onclick="clickOptimize(35)">Extreme</button>
+								</div>
+                            </div>
+<div class="form-check" style="display:none" onclick="buildHisto()">
+  <input class="form-check-input" type="checkbox" value="" id="CheckboxSort">
+  <label class="form-check-label" for="CheckboxSort">
+    Sort by color
+  </label>
+</div>
                             <h5>Frequency of colors</h5>
                             <h6>Drag & drop to replace colors.</h6>
                             <div id="histogram"></div>
@@ -154,6 +172,9 @@
             <div class="row  justify-content-between"><span class="col-sm">Developed by Wofsauge &copy; 2019</span>
                 <div id="rbgDisplay" class="col-sm text-right" style="font-size: 11px">Red: Green: Blue: Alpha: </div>
             </div>
+			<div class="progress"  style="display:none">
+  <div class="progress-bar" id="progressbar"  role="progressbar" style="width: 0%; transition: width .0s ease;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">25%</div>
+</div>
         </div>
 
         <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
