@@ -46,7 +46,7 @@ $(document).ready(function () {
             show: 500,
             hide: 100
         },
-        placement: "right"
+        placement: "bottom"
     });
     $('button').on('mousedown', function () {
         $('[data-toggle="tooltip"]').tooltip('hide');
