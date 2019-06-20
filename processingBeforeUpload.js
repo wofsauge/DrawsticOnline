@@ -1,10 +1,15 @@
 var canvas = document.getElementById("canvas");
 var canvasOriginal = document.getElementById("original");
+var divPrimeColor= document.getElementById("ShaderPrimeColor");
+var divhistogramEntity = document.getElementById("histogramEntity");
 var imageOriginal = new MarvinImage();
 var imageProcessed = new MarvinImage();
 var undoStack = [];
 var redoStack = [];
 var scale = 1;
+var datasets = [dataEnemies, dataitems, datacostumes, databosses];
+var datasetNames = ["Entities", "Items", "Costumes", "Bosses"];
+
 
 document.getElementById('picField').onchange = function (evt) {
     var tgt = evt.target || window.event.srcElement,
@@ -17,6 +22,12 @@ document.getElementById('picField').onchange = function (evt) {
             imageOriginal.load(fr.result, imageLoaded);
             document.getElementById("actionBar").style.display = "block";
             document.getElementById("editField").style.display = "block";
+			var newParent = document.getElementById('movedImageLoader');
+			newParent.appendChild(document.getElementById('picFieldDiv'));
+			var fileInput = document.getElementById('fileUpload');   
+			var filename = fileInput.files[0].name;
+			document.getElementById('imageLoaderTool').innerHTML="'" +filename+"'";
+			$('#blankPageContent').hide();
         }
         fr.readAsDataURL(files[0]);
     }
@@ -54,8 +65,6 @@ $(document).ready(function () {
     loadPalettes();
 });
 
-var datasets = [dataEnemies, dataitems, datacostumes, databosses];
-var datasetNames = ["Entities", "Items", "Costumes", "Bosses"];
 
 function loadPalettes() {
     searchString = document.getElementById("searchInput").value;
@@ -77,7 +86,7 @@ function loadPalettes() {
                     if (counter <= 10) {
                         var div = document.createElement("button");
                         div.setAttribute('class', 'dropdown-item');
-                        div.setAttribute('onmouseup', 'onColorPaletteChange(' + i + ')');
+                        div.setAttribute('onmouseup', 'onColorPaletteChange(' + i + ','+s+')');
                         div.innerHTML = set[i].Name;
                         document.getElementById("paletteDropdownmenu").appendChild(div);
                     }
@@ -112,25 +121,26 @@ function addUndoAction() {
     document.getElementById("redoButton").classList.add("disabled");
 }
 
-function onColorPaletteChange(entityID) {
+function onColorPaletteChange(entityID,datasetID) {
     var tempColor = imageProcessed.getIntColor(0, 0);
+	data = datasets[datasetID];
     document.getElementById("searchInput").value = data[entityID].Name;
-    var myNode = document.getElementById("histogramEntity").innerHTML = '';
+    var myNode = divhistogramEntity.innerHTML = '';
     for (i = 0; i < data[entityID].frequentColors.length; i++) {
         color = data[entityID].frequentColors[i];
         imageProcessed.setIntColor(0, 0, color.A, color.R, color.G, color.B);
-        var div = document.createElement("div");
         var divWrap = document.createElement("div");
         divWrap.setAttribute('class', 'histEntry');
+        var div = document.createElement("div");
         div.setAttribute('class', 'histEntryInner');
         div.setAttribute('draggable', 'true');
         div.setAttribute('data-lookup', 'true');
+        div.setAttribute('onmouseover', 'onHoverHisto(this)');
         div.setAttribute('id', imageProcessed.getIntColor(0, 0));
-        div.classList.add("tooltip2");
-        div.innerHTML = color.count + "<span class=\"tooltiptext\">Red: " + color.R + " Green: " + color.G + " Blue: " + color.B + " Alpha: " + color.A + "</span>";
+        div.innerHTML = color.count + "<span style=\"display: none;\">Red: " + color.R + " Green: " + color.G + " Blue: " + color.B + " Alpha: " + color.A + "</span>";
         div.style.background = "rgba(" + color.R + "," + color.G + "," + color.B + "," + color.A/255 + ")";
         
-		document.getElementById("histogramEntity").appendChild(divWrap);
+		divhistogramEntity.appendChild(divWrap);
 		divWrap.appendChild(div);
     }
     cols = document.querySelectorAll('.histEntryInner');
@@ -157,7 +167,7 @@ function imageLoaded() {
     canvas.height = imageOriginal.getHeight();
     canvas.getContext("2d").fillStyle = "#eeeeee";
     canvas.getContext("2d").fillRect(0, 0, canvasOriginal.width, canvasOriginal.height);
-
+	
     buildHisto();
     repaint();
 }
@@ -175,7 +185,7 @@ function replaceColor(oldColor, newColor) {
     for (var y = 0; y < imageOriginal.getHeight(); y++) {
         for (var x = 0; x < imageOriginal.getWidth(); x++) {
             if (imageProcessed.getIntColor(x, y) == oldColor) {
-                imageProcessed.setIntColor2(x, y, (newColor & 0xFF000000) >>> 24, newColor);
+                imageProcessed.setIntColor1(x, y, newColor);
             }
         }
     }
@@ -247,7 +257,7 @@ function buildHisto() {
         div.setAttribute('onmouseover', 'onHoverHisto(this)');
         div.setAttribute('data-lookup', 'false');
         div.setAttribute('id', hist[i][0]);
-        div.innerHTML = hist[i][5] + "<span style=\"display: none;\">Red: " + hist[i][1] + " Green: " + hist[i][2] + " Blue: " + hist[i][3] + " Alpha: " + hist[i][4] + " delta: " + hist[i][7] + "</span>";
+        div.innerHTML = hist[i][5] + "<span style=\"display: none;\">Red: " + hist[i][1] + " Green: " + hist[i][2] + " Blue: " + hist[i][3] + " Alpha: " + hist[i][4] +"</span>";
 
         div.style.background = "rgba(" + hist[i][1] + "," + hist[i][2] + "," + hist[i][3] + "," + hist[i][4]/255 + ")";
         document.getElementById("histogram").appendChild(divWrap);
@@ -264,8 +274,6 @@ function buildHisto() {
     });
     repaint();
 }
-
-
 
 function onHoverHisto(x) {
     document.getElementById("rbgDisplay").innerHTML = x.childNodes[1].innerHTML;
@@ -285,7 +293,7 @@ function handleDragStart(e) {
 	[].forEach.call(cols, function (col) {
         col.classList.add('dropable');
     });
-        document.getElementById("colorPicker").classList.add('dropable');
+    document.getElementById("colorPicker").classList.add('dropable');
 
     document.getElementById("ButtonMaus").checked;
 }
@@ -340,7 +348,7 @@ function handleDrop(target) {
 
         } else {
             //Droping something on the Histogram Color field
-            if (this.parentNode.id == "histogramEntity") {
+            if (this.parentNode.parentNode.id == "histogramEntity") {
                 if (target.dataTransfer.getData('text/lookup') == "true") {
                     //do nothing when dropping a lookup object onto another
                     return false;
@@ -442,7 +450,7 @@ $(canvas).on('mousedown touchstart', function (e) {
                 addUndoAction();
                 undoBlocker = true;
             }
-            var PrimColor = document.getElementById("ShaderPrimeColor").dataset.value;
+            var PrimColor = divPrimeColor.dataset.value;
             imageProcessed.setIntColor(Math.floor(pos.x / scale), Math.floor(pos.y / scale), PrimColor);
             repaint();
         } else if (document.getElementById("ButtonBucket").checked && !bucketBlocker) {
@@ -452,7 +460,7 @@ $(canvas).on('mousedown touchstart', function (e) {
             }
             bucketBlocker = true;
             var todolist = [];
-            var PrimColor = document.getElementById("ShaderPrimeColor").dataset.value;
+            var PrimColor = divPrimeColor.dataset.value;
             var clickedColor = imageProcessed.getIntColor(Math.floor(pos.x / scale), Math.floor(pos.y / scale));
             todolist.push([Math.floor(pos.x / scale), Math.floor(pos.y / scale)]);
             while (todolist.length > 0) {
@@ -468,9 +476,13 @@ $(canvas).on('mousedown touchstart', function (e) {
             repaint();
         }
     }, 10);
-}).bind('mouseup mouseleave touchend', function () {
+}).bind('mouseup touchend', function () {
     buildHisto();
     clearInterval(timeOut);
+    if (document.getElementById("ButtonColorpicker").checked) {
+		divPrimeColor.dataset.value = lastHover;        
+		divPrimeColor.style.background = "rgba(" + getR(lastHover) + "," + getG(lastHover) + "," + getB(lastHover) + "," + getA(lastHover)/255 + ")";
+	}
     bucketBlocker = false;
     undoBlocker = false;
 });
@@ -479,16 +491,12 @@ function updateCursor() {
     canvas.classList.remove('colorpicker');
     canvas.classList.remove('pencil');
     canvas.classList.remove('bucket');
-    console.log("jup");
     if (document.getElementById("ButtonColorpicker").checked) {
         canvas.classList.add('colorpicker');
-        console.log("1");
     } else if (document.getElementById("ButtonPencil").checked) {
         canvas.classList.add('pencil');
-        console.log("2");
     } else if (document.getElementById("ButtonBucket").checked) {
         canvas.classList.add('bucket');
-        console.log("3");
     }
 }
 

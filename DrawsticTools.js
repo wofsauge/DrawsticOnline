@@ -35,7 +35,7 @@ function clickDrawShading() {
         for (var x = 0; x < imageTemp.getWidth(); x++) {
 
             if (imageTemp.getIntColor(x, y) == SecondColor || imageTemp.getIntColor(x, y) == ThirdColor) {
-                imageTemp.setIntColor2(x, y, (PrimColor & 0xFF000000) >>> 24, PrimColor);
+                imageTemp.setIntColor1(x, y, PrimColor);
             }
             if (imageTemp.getIntColor(x, y) == PrimColor) {
                 for (var maskid = 0; maskid <= 7; maskid++) {
@@ -59,7 +59,7 @@ function clickDrawShading() {
                         }
                     }
                     if (count == match) {
-                        imageProcessed.setIntColor2(x, y, (SecondColor & 0xFF000000) >>> 24, SecondColor);
+                        imageProcessed.setIntColor1(x, y, SecondColor);
                         break;
                     }
                 }
@@ -82,7 +82,7 @@ function clickDrawShading() {
                         }
                     }
                     if (count == match) {
-                        imageProcessed.setIntColor2(x, y, (ThirdColor & 0xFF000000) >>> 24, ThirdColor);
+                        imageProcessed.setIntColor1(x, y, ThirdColor);
                         break;
                     }
                 }
@@ -260,4 +260,17 @@ function clickDetectCorners() {
     ctx.fillRect(Math.floor(x2 / count2 + width / 2), Math.floor(y2 / count2 + width / 2), 2, 2);
     console.log(count + "x1:" + (x1 / count + width / 2) + ",y1:" + (y1 / count + width / 2));
     console.log(count2 + "x1:" + (x2 / count2 + width / 2) + ",y1:" + (y2 / count2 + width / 2));
+}
+
+function getR(color){
+	return (color & 0x00FF0000) >> 16;
+}
+function getG(color){
+	return(color & 0x0000FF00) >> 8;
+}
+function getB(color){
+	return color & 0x000000FF;
+}
+function getA(color){
+	return (color & 0xFF000000) >>> 24;
 }

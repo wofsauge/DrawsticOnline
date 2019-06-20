@@ -1,6 +1,8 @@
 .iLB {
     display: inline-block;
-    vertical-align: top
+    vertical-align: top;
+	border-left: 1px solid #c1c1c1;
+	padding:5px
 }
 
 .histEntry {
@@ -24,16 +26,22 @@
 	z-index:3;
     border: 2px dashed #00000000;
 }
-
+#histogram, #histogramEntity{
+	max-height: 210px;
+    overflow-y: overlay;
+    overflow-x: hidden;
+    width: 385px;
+}
 .toolbar {
     display: block;
-    position: fixed;
-    width: 185px;
-    min-width: 185px;
+    position: fixed;    
+	width: 200px;
+    min-width: 210px;
     top: 0;
     left: 0;
     bottom: 0;
-    padding: 80px 5px 0 10px;
+    padding: 10px 25px 0 10px;
+    overflow-y: overlay;
     background-color: white;
 }
 
@@ -127,7 +135,7 @@
 }
 
 .tooltip2 div.tooltiptext {
-    width: 145px;
+    width: 175px;
     top: 175%;
 }
 
@@ -147,15 +155,21 @@
     right: 0;
 }
 
-body {
+html, body {
+  height: 100%;
+  background-color: #eeeeee;
     margin: 0
 }
 
 .mainContent {
     margin: auto;
-    padding-top: 20px
+    height: 100%;
+    padding-right: 0px;
 }
-
+#blankPageContent{
+	height: 70%;
+    text-align: center;
+}
 /*Bootstrap edits*/
 .dropdown-item{
     font-size: 0.8rem;
@@ -166,3 +180,7 @@ body {
     padding: 0.2rem 0.4rem;
 }
 .footer{background:rgba(255,255,255,0.5)}
+.custom-file-label::after{
+    color: #f8f9fa;
+	background:#6c757d
+}
