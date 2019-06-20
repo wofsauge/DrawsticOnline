@@ -36,13 +36,13 @@
 						<label class="btn btn-outline-dark active">
 						<input type="radio" name="options" id="ButtonMaus" autocomplete="off" checked><span class="oi oi-location"></span>
 						</label>
-						<label class="btn btn-outline-dark" data-toggle="tooltip" data-html="true" title="Click on a color to find it in the histogram (right side).">
+						<label class="btn btn-outline-dark" data-toggle="tooltip" data-html="true" title="Click on a color to find it in the histogram (right side) and place the color in the 'Primary Color' slot.">
 						<input type="radio" name="options" id="ButtonColorpicker" autocomplete="off"><span class="oi oi-eyedropper"></span>
 						</label>
 						<label class="btn btn-outline-dark" data-toggle="tooltip" data-html="true" title="Click on the image to draw. This function uses the Primary color.">
 						<input type="radio" name="options" id="ButtonPencil" autocomplete="off"><span class="oi oi-pencil"></span>
 						</label>
-						<label class="btn btn-outline-dark" data-toggle="tooltip" data-html="true" title="Click on a color to find it.">
+						<label class="btn btn-outline-dark" data-toggle="tooltip" data-html="true" title="Click on the image to fill a segment with the Primary color.">
 						<input type="radio" name="options" id="ButtonBucket" autocomplete="off"><span class="oi oi-beaker"></span>
 						</label>
 					</div>
@@ -120,7 +120,7 @@
 						<!---------------------Image Histogram-------------------->
 						<div class="iLB" style="float: right;width: 400px;">
 							<div class="btn-group" style="margin:8px; float:right">
-								<button type="button" class="btn btn-outline-dark " onclick="clickOptimize(2)" data-toggle="tooltip" data-html="true" title="Combines colors that look very similar.">optimize colors</button>
+								<button type="button" class="btn btn-outline-dark " onclick="clickOptimize(2)" data-toggle="tooltip" data-html="true" title="Combines colors that look very similar. <br><img width=&quot;150px&quot; src=&quot;images/optimizeInfo.png&quot; alt=&quot;test&quot;/>">optimize colors</button>
 								<button type="button" class="btn btn-outline-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"  id="optimizeDropdown" aria-haspopup="true" aria-expanded="false">
 								<span class="sr-only">Toggle Dropdown</span>
 								</button>
