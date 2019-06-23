@@ -1,6 +1,6 @@
 var canvas = document.getElementById("canvas");
 var canvasOriginal = document.getElementById("original");
-var divPrimeColor= document.getElementById("ShaderPrimeColor");
+var divPrimeColor = document.getElementById("ShaderPrimeColor");
 var divhistogramEntity = document.getElementById("histogramEntity");
 var imageOriginal = new MarvinImage();
 var imageProcessed = new MarvinImage();
@@ -22,18 +22,15 @@ document.getElementById('picField').onchange = function (evt) {
             imageOriginal.load(fr.result, imageLoaded);
             document.getElementById("actionBar").style.display = "block";
             document.getElementById("editField").style.display = "block";
-			var newParent = document.getElementById('movedImageLoader');
-			newParent.appendChild(document.getElementById('picFieldDiv'));
-			var fileInput = document.getElementById('fileUpload');   
-			var filename = fileInput.files[0].name;
-			document.getElementById('imageLoaderTool').innerHTML="'" +filename+"'";
-			$('#blankPageContent').hide();
-        }
+            var newParent = document.getElementById('movedImageLoader');
+            newParent.appendChild(document.getElementById('picFieldDiv'));
+            var fileInput = document.getElementById('fileUpload');
+            var filename = fileInput.files[0].name;
+            document.getElementById('imageLoaderTool').innerHTML = "'" + filename + "'";
+            $('#blankPageContent').hide();
+        };
         fr.readAsDataURL(files[0]);
-    }
-
-    // Not supported
-    else {
+    } else {
         // fallback -- perhaps submit the input to an iframe and temporarily store
         // them on the server until the user's session ends.
     }
@@ -86,7 +83,7 @@ function loadPalettes() {
                     if (counter <= 10) {
                         var div = document.createElement("button");
                         div.setAttribute('class', 'dropdown-item');
-                        div.setAttribute('onmouseup', 'onColorPaletteChange(' + i + ','+s+')');
+                        div.setAttribute('onmouseup', 'onColorPaletteChange(' + i + ',' + s + ')');
                         div.innerHTML = set[i].Name;
                         document.getElementById("paletteDropdownmenu").appendChild(div);
                     }
@@ -121,9 +118,9 @@ function addUndoAction() {
     document.getElementById("redoButton").classList.add("disabled");
 }
 
-function onColorPaletteChange(entityID,datasetID) {
+function onColorPaletteChange(entityID, datasetID) {
     var tempColor = imageProcessed.getIntColor(0, 0);
-	data = datasets[datasetID];
+    data = datasets[datasetID];
     document.getElementById("searchInput").value = data[entityID].Name;
     var myNode = divhistogramEntity.innerHTML = '';
     for (i = 0; i < data[entityID].frequentColors.length; i++) {
@@ -138,10 +135,10 @@ function onColorPaletteChange(entityID,datasetID) {
         div.setAttribute('onmouseover', 'onHoverHisto(this)');
         div.setAttribute('id', imageProcessed.getIntColor(0, 0));
         div.innerHTML = color.count + "<span style=\"display: none;\">Red: " + color.R + " Green: " + color.G + " Blue: " + color.B + " Alpha: " + color.A + "</span>";
-        div.style.background = "rgba(" + color.R + "," + color.G + "," + color.B + "," + color.A/255 + ")";
-        
-		divhistogramEntity.appendChild(divWrap);
-		divWrap.appendChild(div);
+        div.style.background = "rgba(" + color.R + "," + color.G + "," + color.B + "," + color.A / 255 + ")";
+
+        divhistogramEntity.appendChild(divWrap);
+        divWrap.appendChild(div);
     }
     cols = document.querySelectorAll('.histEntryInner');
 	[].forEach.call(cols, function (col) {
@@ -167,7 +164,7 @@ function imageLoaded() {
     canvas.height = imageOriginal.getHeight();
     canvas.getContext("2d").fillStyle = "#eeeeee";
     canvas.getContext("2d").fillRect(0, 0, canvasOriginal.width, canvasOriginal.height);
-	
+
     buildHisto();
     repaint();
 }
@@ -190,6 +187,7 @@ function replaceColor(oldColor, newColor) {
         }
     }
 }
+
 function removeColor(Color) {
     replaceColor(Color, 0xFF000000);
 }
@@ -257,11 +255,11 @@ function buildHisto() {
         div.setAttribute('onmouseover', 'onHoverHisto(this)');
         div.setAttribute('data-lookup', 'false');
         div.setAttribute('id', hist[i][0]);
-        div.innerHTML = hist[i][5] + "<span style=\"display: none;\">Red: " + hist[i][1] + " Green: " + hist[i][2] + " Blue: " + hist[i][3] + " Alpha: " + hist[i][4] +"</span>";
+        div.innerHTML = hist[i][5] + "<span style=\"display: none;\">Red: " + hist[i][1] + " Green: " + hist[i][2] + " Blue: " + hist[i][3] + " Alpha: " + hist[i][4] + "</span>";
 
-        div.style.background = "rgba(" + hist[i][1] + "," + hist[i][2] + "," + hist[i][3] + "," + hist[i][4]/255 + ")";
+        div.style.background = "rgba(" + hist[i][1] + "," + hist[i][2] + "," + hist[i][3] + "," + hist[i][4] / 255 + ")";
         document.getElementById("histogram").appendChild(divWrap);
-		divWrap.appendChild(div);
+        divWrap.appendChild(div);
     }
     cols = document.querySelectorAll('.histEntryInner');
 	[].forEach.call(cols, function (col) {
@@ -480,9 +478,9 @@ $(canvas).on('mousedown touchstart', function (e) {
     buildHisto();
     clearInterval(timeOut);
     if (document.getElementById("ButtonColorpicker").checked) {
-		divPrimeColor.dataset.value = lastHover;        
-		divPrimeColor.style.background = "rgba(" + getR(lastHover) + "," + getG(lastHover) + "," + getB(lastHover) + "," + getA(lastHover)/255 + ")";
-	}
+        divPrimeColor.dataset.value = lastHover;
+        divPrimeColor.style.background = "rgba(" + getR(lastHover) + "," + getG(lastHover) + "," + getB(lastHover) + "," + getA(lastHover) / 255 + ")";
+    }
     bucketBlocker = false;
     undoBlocker = false;
 });

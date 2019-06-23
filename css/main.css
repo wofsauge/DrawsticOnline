@@ -1,8 +1,8 @@
 .iLB {
     display: inline-block;
     vertical-align: top;
-	border-left: 1px solid #c1c1c1;
-	padding:5px
+    border-left: 1px solid #c1c1c1;
+    padding: 5px
 }
 
 .histEntry {
@@ -13,29 +13,33 @@
     text-align: center;
     color: white;
     border: 1px solid #eee;
-	border-width: 1px 2px;
-	z-index:2;
-	background-image:url("../images/raster.png") ;
+    border-width: 1px 2px;
+    z-index: 2;
+    background-image: url("../images/raster.png");
     text-shadow: 0 0 3px black
 }
+
 .histEntryInner {
     display: inline-block;
     vertical-align: top;
     width: 35px;
     padding: 10px 5px;
-	z-index:3;
+    z-index: 3;
     border: 2px dashed #00000000;
 }
-#histogram, #histogramEntity{
-	max-height: 210px;
+
+#histogram,
+#histogramEntity {
+    max-height: 210px;
     overflow-y: overlay;
     overflow-x: hidden;
     width: 385px;
 }
+
 .toolbar {
     display: block;
-    position: fixed;    
-	width: 200px;
+    position: fixed;
+    width: 200px;
     min-width: 210px;
     top: 0;
     left: 0;
@@ -50,7 +54,6 @@
     margin-top: 15px;
     border: 1px solid #000;
     border-radius: 3px;
-
 }
 
 .submenu > span {
@@ -66,16 +69,17 @@
 .over {
     position: relative;
     border: 2px solid #000 !important;
-	border-width: 1px 2px;
+    border-width: 1px 2px;
 }
 
 .dropable {
     position: relative;
     border: 2px solid #00f518;
-	border-width: 1px 2px;
+    border-width: 1px 2px;
 }
 
-.colorpicked:before, .over:before {
+.colorpicked:before,
+.over:before {
     content: " ";
     position: absolute;
     z-index: 1;
@@ -92,13 +96,15 @@
     margin: 0px 4px;
 }
 
-.colorpicker{
+.colorpicker {
     cursor: url("../open-iconic/png/eyedropper-2xPointer.png") 0 16, auto;
 }
-.pencil{
+
+.pencil {
     cursor: url("../open-iconic/png/pencil-2xPointer.png") 0 16, auto;
 }
-.bucket{
+
+.bucket {
     cursor: url("../open-iconic/png/beaker-2xPointer.png") 0 0, auto;
 }
 
@@ -155,32 +161,39 @@
     right: 0;
 }
 
-html, body {
-  height: 100%;
-  background-color: #eeeeee;
+html,
+body {
+    height: 100%;
+    background-color: #eeeeee;
     margin: 0
 }
 
 .mainContent {
     margin: auto;
     height: 100%;
-    padding-right: 0px;
 }
-#blankPageContent{
-	height: 70%;
+
+#blankPageContent {
+    height: 70%;
     text-align: center;
 }
+
 /*Bootstrap edits*/
-.dropdown-item{
+.dropdown-item {
     font-size: 0.8rem;
-        padding: 0rem 1rem;
+    padding: 0rem 1rem;
 }
-.dropdown-header{
+
+.dropdown-header {
     font-size: 1rem;
     padding: 0.2rem 0.4rem;
 }
-.footer{background:rgba(255,255,255,0.5)}
-.custom-file-label::after{
+
+.footer {
+    background: rgba(255, 255, 255, 0.5)
+}
+
+.custom-file-label::after {
     color: #f8f9fa;
-	background:#6c757d
+    background: #6c757d
 }
