@@ -481,7 +481,7 @@ $(canvas).on('mousedown touchstart', function (e) {
             }
             repaint();
         }
-    }, 10);
+    }, 2);
 }).bind('mouseup touchend', function () {
     buildHisto();
     clearInterval(timeOut);

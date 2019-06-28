@@ -24,9 +24,8 @@
                     <a class="dropdown-toggle btn btn-outline-dark" href="#" id="navbarDropdownFile" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         File
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownFile" style="padding: 5px">
-                        <span class="dropdown-item">Load file:</span>
-                        <div id="movedImageLoader">
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownFile" style="padding: 5px;width: 230px;">
+                        <div id="movedImageLoader" class="dropdown-item">
                         </div>
                         <button type="button" class="btn btn-outline-dark btn-sm btn-block" onclick="clickDownload()"><span style="left: -10px;" class="oi oi-data-transfer-download"></span>Download</button>
                         <div class="dropdown-divider"></div>
@@ -168,9 +167,9 @@
                 <h1>Isaac Sprite Editor</h1>
                 <h4>by Wofsauge</h4>
                 <div class="input-group" id="picFieldDiv">
-                    <form class="custom-file" id="picField" method="post" enctype="multipart/form-data">
+                    <form class="custom-file" id="picField" method="post" style="margin-bottom:5px" enctype="multipart/form-data">
                         <input type="file" class="custom-file-input" id="fileUpload" name="userfile" accept="image/x-png">
-                        <label class="custom-file-label" for="fileUpload">Load Imagefile</label>
+                        <label class="custom-file-label" for="fileUpload">Open Imagefile...</label>
                     </form>
                 </div>
             </div>
@@ -180,7 +179,7 @@
         <!--                        CANVAS                      -->
         <div class="iLB">
             <canvas id="original" style="position:absolute; opacity:0;border:1px dotted; display:none">Your browser does not support HTML5. Please use another browser.</canvas>
-            <canvas id="canvas" style="border:1px dotted;background-image: url(/images/raster.png);">Your browser does not support HTML5. Please use another browser.</canvas>
+            <canvas id="canvas" style="border:1px dotted;background-image: url('images/raster.png');">Your browser does not support HTML5. Please use another browser.</canvas>
         </div>
 
     </div>
