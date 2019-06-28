@@ -1,8 +1,20 @@
 .iLB {
-    display: inline-block;
-    vertical-align: top;
-    border-left: 1px solid #c1c1c1;
-    padding: 5px
+    position: fixed;
+    top: 56px;
+    left: 0px;
+    bottom: 5px;
+    right: 0;
+    margin-bottom: 21px;
+    margin-right: 390px;
+    overflow: scroll;
+    padding: 5px;
+}
+#navbar{border-bottom:1px solid #484848;
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
 }
 
 .histEntry {
@@ -39,13 +51,14 @@
 .toolbar {
     display: block;
     position: fixed;
-    width: 200px;
-    min-width: 210px;
+    float:right;
+    min-width: 390px;
     top: 0;
-    left: 0;
+    right: 0;
     bottom: 0;
-    padding: 10px 25px 0 10px;
+    padding: 60px 5px 0px 5px;
     overflow-y: overlay;
+    z-index: 1;
     background-color: white;
 }
 
@@ -164,16 +177,22 @@
 html,
 body {
     height: 100%;
-    background-color: #eeeeee;
+    background-color: #bcbcbc;
     margin: 0
 }
 
 .mainContent {
-    margin: auto;
-    height: 100%;
+    padding: 0;
+    overflow: hidden;
+}
+.mainContent_hide {
+    height:0%; 
+    display:none;
+    overflow: hidden;  
+    padding: 0;
 }
 
-#blankPageContent {
+.blankPageContent {
     height: 70%;
     text-align: center;
 }
@@ -190,10 +209,14 @@ body {
 }
 
 .footer {
-    background: rgba(255, 255, 255, 0.5)
+    z-index:10;
+    background: #eeeeee
 }
 
 .custom-file-label::after {
     color: #f8f9fa;
     background: #6c757d
+}
+.nav-item{
+    padding: 0px 2px
 }

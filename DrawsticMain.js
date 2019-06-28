@@ -7,8 +7,8 @@ var imageProcessed = new MarvinImage();
 var undoStack = [];
 var redoStack = [];
 var scale = 1;
-var datasets = [dataEnemies, dataitems, datacostumes, databosses];
-var datasetNames = ["Entities", "Items", "Costumes", "Bosses"];
+var datasets = [dataDefault, dataEnemies, dataitems, datacostumes, databosses];
+var datasetNames = ["Default","Entities", "Items", "Costumes", "Bosses"];
 
 
 document.getElementById('picField').onchange = function (evt) {
@@ -20,14 +20,17 @@ document.getElementById('picField').onchange = function (evt) {
         var fr = new FileReader();
         fr.onload = function () {
             imageOriginal.load(fr.result, imageLoaded);
-            document.getElementById("actionBar").style.display = "block";
-            document.getElementById("editField").style.display = "block";
+            document.getElementById("toolbar").style.display = "block";
+            document.getElementById("navbar").style.display = "flex";
+            document.getElementById("mainContent").classList.remove("mainContent_hide");
+            document.getElementById("mainContent").classList.add("mainContent");
             var newParent = document.getElementById('movedImageLoader');
             newParent.appendChild(document.getElementById('picFieldDiv'));
             var fileInput = document.getElementById('fileUpload');
             var filename = fileInput.files[0].name;
             document.getElementById('imageLoaderTool').innerHTML = "'" + filename + "'";
             $('#blankPageContent').hide();
+            document.getElementById("blankPageContent").classList.add("mainContent_hide");
         };
         fr.readAsDataURL(files[0]);
     } else {
@@ -40,10 +43,10 @@ $(document).ready(function () {
     $("body").tooltip({
         selector: '[data-toggle=tooltip]',
         delay: {
-            show: 500,
+            show: 300,
             hide: 100
         },
-        placement: "bottom"
+        placement: "right"
     });
     $('button').on('mousedown', function () {
         $('[data-toggle="tooltip"]').tooltip('hide');
@@ -104,8 +107,13 @@ function loadPalettes() {
     } else {
         var div = document.createElement("p");
         div.setAttribute('style', 'text-align:center');
-        div.innerHTML = "Search for anything Isaac related in order to load its colorpalette.";
+        div.innerHTML = "Search for anything Isaac related in order to load its colorpalette.<hr/>Or use the default Colorpalette:";
         document.getElementById("paletteDropdownmenu").appendChild(div);
+        var div2 = document.createElement("button");
+        div2.setAttribute('class', 'dropdown-item');
+        div2.setAttribute('onmouseup', 'onColorPaletteChange(' + 0 + ',' + 0 + ')');
+        div2.innerHTML = dataDefault[0].Name;
+        document.getElementById("paletteDropdownmenu").appendChild(div2);
     }
 }
 
